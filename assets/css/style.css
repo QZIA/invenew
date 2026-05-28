@@ -389,7 +389,7 @@ p  { color: var(--color-text-muted); }
 .nl-strip-text { flex: 1; min-width: 0; }
 .nl-strip-text h2 { color: #ffffff; margin-bottom: 6px; }
 .nl-strip-text p  { color: rgba(255,255,255,0.75); margin: 0; }
-.nl-strip-form { width: 440px; flex-shrink: 0; }
+.nl-strip-form { width: 520px; flex-shrink: 0; }
 .nl-form { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
 .nl-form input {
   font-size: 14px;
