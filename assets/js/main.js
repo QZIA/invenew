@@ -86,7 +86,7 @@
 
   /* ── Init ── */
   document.addEventListener('DOMContentLoaded', function () {
-    // Apply theme (nav button may not exist yet — components.js injects it)
+    // Re-apply theme to sync the icon (nav is now in HTML so the button exists)
     const stored = getStoredTheme();
     applyTheme(stored || getSystemTheme());
 
@@ -114,11 +114,14 @@
   window.__invenew = window.__invenew || {};
   window.__invenew.updateThemeIcon = updateThemeIcon;
 
-  // Apply theme before DOMContentLoaded to prevent flash
+  // The nav is now baked into HTML so #theme-toggle exists as soon as
+  // this deferred script runs.  Update the icon immediately — before
+  // DOMContentLoaded — so dark-mode users never see the wrong icon.
   (function () {
     const stored = getStoredTheme();
     const theme = stored || getSystemTheme();
     document.documentElement.setAttribute('data-theme', theme);
+    updateThemeIcon(theme);
   })();
 
 })();

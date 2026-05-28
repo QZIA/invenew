@@ -22,7 +22,38 @@
 </head>
 <body>
 
-<div id="site-nav"></div>
+<nav class="nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo" aria-label="INVENEW home">
+      <img src="assets/img/INVENEW-light-long1.png" alt="INVENEW" class="logo-light">
+      <img src="assets/img/INVENEW-dark-long1.png"  alt="INVENEW" class="logo-dark">
+    </a>
+    <ul class="nav-links" role="list">
+      <li><a href="intelligence.html">Intelligence</a></li>
+      <li><a href="labs.html">Labs</a></li>
+      <li><a href="newsletter.html">Newsletter</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="btn-icon" id="theme-toggle" aria-label="Switch to dark mode">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <button class="nav-hamburger" id="nav-hamburger" aria-expanded="false" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+      <a href="newsletter.html" class="btn-subscribe">Subscribe</a>
+    </div>
+  </div>
+  <div class="mobile-nav" id="mobile-nav" role="dialog" aria-label="Mobile navigation">
+    <a href="intelligence.html">Intelligence</a>
+    <a href="labs.html">Labs</a>
+    <a href="newsletter.html">Newsletter</a>
+    <a href="blog.html">Blog</a>
+    <a href="about.html">About</a>
+    <a href="newsletter.html" class="btn-subscribe">Subscribe free</a>
+  </div>
+</nav>
 
 <!-- ── Page Hero ── -->
 <section class="page-hero">

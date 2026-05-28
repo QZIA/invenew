@@ -56,6 +56,11 @@
   color-scheme: dark; /* native scrollbars/controls match dark theme immediately */
 }
 
+/* ── Cross-page transitions (Chrome 126+, Safari 18.2+) ── */
+/* Smooth crossfade between pages instead of a blank white flash.
+   Ignored silently by older browsers — zero risk of breakage. */
+@view-transition { navigation: auto; }
+
 /* ── Reset ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html {

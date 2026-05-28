@@ -1,56 +1,12 @@
 /* ============================================================
-   INVENEW — Shared Nav & Footer Components
+   INVENEW — Shared Footer Component
+   The nav is baked into every HTML page so it renders on the
+   first paint with no JS dependency.  This file only handles
+   the footer injection and marking the active nav link.
    ============================================================ */
 
 (function () {
   'use strict';
-
-  const NAV_LINKS = [
-    { href: 'intelligence.html', label: 'Intelligence' },
-    { href: 'labs.html',         label: 'Labs' },
-    { href: 'newsletter.html',   label: 'Newsletter' },
-    { href: 'blog.html',         label: 'Blog' },
-    { href: 'about.html',        label: 'About' },
-  ];
-
-  function moonIcon() {
-    return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
-  }
-
-  function buildNav() {
-    const el = document.getElementById('site-nav');
-    if (!el) return;
-
-    const links = NAV_LINKS.map(function (l) {
-      return `<li><a href="${l.href}">${l.label}</a></li>`;
-    }).join('');
-
-    const mobileLinks = NAV_LINKS.map(function (l) {
-      return `<a href="${l.href}">${l.label}</a>`;
-    }).join('');
-
-    el.innerHTML = `
-<nav class="nav" role="navigation" aria-label="Main navigation">
-  <div class="nav-inner">
-    <a href="index.html" class="nav-logo" aria-label="INVENEW home">
-      <img src="assets/img/INVENEW-light-long1.png" alt="INVENEW" class="logo-light">
-      <img src="assets/img/INVENEW-dark-long1.png"  alt="INVENEW" class="logo-dark">
-    </a>
-    <ul class="nav-links" role="list">${links}</ul>
-    <div class="nav-right">
-      <button class="btn-icon" id="theme-toggle" aria-label="Switch to dark mode">${moonIcon()}</button>
-      <button class="nav-hamburger" id="nav-hamburger" aria-expanded="false" aria-label="Open menu">
-        <span></span><span></span><span></span>
-      </button>
-      <a href="newsletter.html" class="btn-subscribe">Subscribe</a>
-    </div>
-  </div>
-  <div class="mobile-nav" id="mobile-nav" role="dialog" aria-label="Mobile navigation">
-    ${mobileLinks}
-    <a href="newsletter.html" class="btn-subscribe">Subscribe free</a>
-  </div>
-</nav>`;
-  }
 
   function buildFooter() {
     const el = document.getElementById('site-footer');
@@ -102,39 +58,7 @@
   }
 
   document.addEventListener('DOMContentLoaded', function () {
-    buildNav();
     buildFooter();
-
-    // Sync theme icon now that the button exists in the DOM
-    const theme = document.documentElement.getAttribute('data-theme') || 'light';
-    if (window.__invenew && window.__invenew.updateThemeIcon) {
-      window.__invenew.updateThemeIcon(theme);
-    }
-
-    // Mobile nav needs re-init after nav is injected
-    const hamburger = document.getElementById('nav-hamburger');
-    const mobileNav = document.getElementById('mobile-nav');
-    if (hamburger && mobileNav) {
-      hamburger.addEventListener('click', function () {
-        const open = mobileNav.classList.toggle('open');
-        hamburger.setAttribute('aria-expanded', String(open));
-      });
-      document.addEventListener('click', function (e) {
-        if (!hamburger.contains(e.target) && !mobileNav.contains(e.target)) {
-          mobileNav.classList.remove('open');
-          hamburger.setAttribute('aria-expanded', 'false');
-        }
-      });
-    }
-
-    // Active nav link
-    const path = window.location.pathname.split('/').pop() || 'index.html';
-    document.querySelectorAll('.nav-links a, .mobile-nav a').forEach(function (a) {
-      const hrefFile = (a.getAttribute('href') || '').split('/').pop();
-      if (hrefFile === path || (path === '' && hrefFile === 'index.html')) {
-        a.classList.add('active');
-      }
-    });
   });
 
 })();
