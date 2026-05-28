@@ -306,6 +306,12 @@ p  { color: var(--color-text-muted); }
 }
 .hero .container { max-width: 1200px; position: relative; z-index: 1; }
 
+/* AI stack canvas sizing */
+#ai-stack-canvas {
+  width: 100%;
+  display: block;
+}
+
 /* Hero video panel */
 .hero-video-wrap {
   position: relative;
