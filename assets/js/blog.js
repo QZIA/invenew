@@ -23,6 +23,20 @@
       .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 
+  // Normalise a category title to a safe data-topic value
+  function slugify(str) {
+    return String(str || '').toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')   // collapse non-alphanumeric runs to hyphens
+      .replace(/^-|-$/g, '');          // trim leading/trailing hyphens
+  }
+
+  // Return the slugified category label for a post (used for matching)
+  function postTopic(post) {
+    var title = (post.category && post.category.title) ||
+                (post.tag      && post.tag.title)      || '';
+    return slugify(title);
+  }
+
   // Append Sanity CDN size params to image URL
   function imgUrl(url, w, h) {
     if (!url) return null;
@@ -37,6 +51,34 @@
     '<circle cx="8.5" cy="8.5" r="1.5"/>' +
     '<polyline points="21 15 16 10 5 21"/>' +
     '</svg>';
+
+  /* ── Filter pills (built from fetched categories) ────── */
+
+  function buildFilters(posts) {
+    var row = document.getElementById('filter-row');
+    if (!row) return;
+
+    // Collect unique category titles in the order they first appear
+    var seen  = {};
+    var items = [];
+    posts.forEach(function (p) {
+      var title = (p.category && p.category.title) ||
+                  (p.tag      && p.tag.title)      || '';
+      if (title && !seen[title]) {
+        seen[title] = true;
+        items.push({ title: title, slug: slugify(title) });
+      }
+    });
+
+    // Rebuild pill row, preserving the active state on "All"
+    var html = '<button class="filter-btn active" data-topic="all">All</button>';
+    items.forEach(function (item) {
+      html += '<button class="filter-btn" data-topic="' + esc(item.slug) + '">' +
+                esc(item.title) +
+              '</button>';
+    });
+    row.innerHTML = html;
+  }
 
   /* ── Featured post ────────────────────────────────────── */
 
@@ -140,9 +182,7 @@
     if (!gridEl) return;
 
     var filtered = topic === 'all' ? posts : posts.filter(function (p) {
-      var cat = p.category ? (p.category.slug || p.category.title || '').toLowerCase() : '';
-      var tag = p.tag      ? (p.tag.slug      || p.tag.title      || '').toLowerCase() : '';
-      return cat.indexOf(topic) !== -1 || tag.indexOf(topic) !== -1;
+      return postTopic(p) === topic;
     });
 
     if (!filtered.length) {
@@ -186,6 +226,8 @@
         clearTimeout(timer);
         allPosts = data.result || [];
         if (!allPosts.length) { showFallback(); return; }
+        currentTopic = 'all';
+        buildFilters(allPosts);
         renderPosts(allPosts, currentTopic);
       })
       .catch(function (err) {
