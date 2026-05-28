@@ -53,6 +53,7 @@
   --color-card-bg:      #1a1a1a;
   --color-footer-bg:    #111111;
   --color-form-bg:      #1e253a;
+  color-scheme: dark; /* native scrollbars/controls match dark theme immediately */
 }
 
 /* ── Reset ── */
@@ -68,7 +69,10 @@ body {
   line-height: 1.7;
   color: var(--color-text);
   background: var(--color-bg);
-  /* Transitions only active after page load — prevents flash on navigation */
+  /* Push content below the fixed nav.
+     Set via CSS (render-blocking), so it is always applied before first paint —
+     no layout shift regardless of when components.js injects the nav. */
+  padding-top: var(--nav-height);
 }
 /* Enable smooth theme transitions only once JS marks the page as ready */
 .theme-ready body { transition: background var(--transition), color var(--transition); }
@@ -103,12 +107,15 @@ p  { color: var(--color-text-muted); }
 .section-intro p  { font-size: 15px; }
 
 /* ── Navigation ── */
-/* Reserve nav height before JS injects the component — prevents layout shift */
-#site-nav { min-height: var(--nav-height); }
+/* #site-nav is a zero-height injection target.
+   Content offset is handled by body { padding-top } above, which is set
+   by render-blocking CSS — so there is never a layout shift from JS injection. */
 
 .nav {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 100;
   height: var(--nav-height);
   background: var(--color-nav-bg);
