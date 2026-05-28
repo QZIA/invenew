@@ -90,6 +90,12 @@
     const stored = getStoredTheme();
     applyTheme(stored || getSystemTheme());
 
+    // Enable CSS transitions now that the page has loaded.
+    // This prevents transition animations from firing on page load
+    // (which would cause a dark→light flash) while still allowing
+    // smooth transitions when the user clicks the theme toggle.
+    document.documentElement.classList.add('theme-ready');
+
     // Use event delegation so the click works regardless of when the
     // button is injected into the DOM by components.js
     document.addEventListener('click', function (e) {
