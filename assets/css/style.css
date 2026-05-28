@@ -61,6 +61,17 @@
    Ignored silently by older browsers — zero risk of breakage. */
 @view-transition { navigation: auto; }
 
+/* The nav is identical on every page — give it a stable identity so the
+   browser tracks it as a persistent element instead of fading it out
+   and back in with the rest of the page. Result: zero nav flicker. */
+.nav { view-transition-name: site-nav; }
+
+/* No animation needed for the nav itself — freeze it in place. */
+::view-transition-old(site-nav),
+::view-transition-new(site-nav) {
+  animation: none;
+}
+
 /* ── Reset ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html {
