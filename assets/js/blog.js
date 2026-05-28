@@ -46,7 +46,7 @@
                     (post.tag      && post.tag.title)      || 'Insight';
       var date    = formatDate(post.publishedAt || post._createdAt);
       var title   = esc(post.title   || 'Untitled');
-      var excerpt = esc(post.excerpt || post.description || post.summary || '');
+      var excerpt = esc(post.excerpt || post.description || post.summary || post.bodyPreview || '');
 
       html +=
         '<article class="blog-card">' +

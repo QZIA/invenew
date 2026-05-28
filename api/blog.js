@@ -8,11 +8,12 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: 'Missing SANITY_PROJECT_ID env var' });
   }
 
-  // Fetch latest 30 published posts with all likely field names
+  // Fetch latest 30 posts ordered by creation date
   const query = encodeURIComponent(
-    '*[_type == "post" && defined(publishedAt)] | order(publishedAt desc) [0..29] {' +
-      '_id, title, slug, excerpt, description, summary, body,' +
-      'publishedAt, _createdAt,' +
+    '*[_type == "post"] | order(_createdAt desc) [0..29] {' +
+      '_id, title, slug, excerpt, description, summary,' +
+      '_createdAt, publishedAt,' +
+      '"bodyPreview": pt::text(body)[0..300],' +
       '"category": categories[0]->{ title, "slug": slug.current },' +
       '"tag": tags[0]->{ title, "slug": slug.current },' +
       '"author": author->{ name },' +
