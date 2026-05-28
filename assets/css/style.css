@@ -56,21 +56,6 @@
   color-scheme: dark; /* native scrollbars/controls match dark theme immediately */
 }
 
-/* ── Cross-page transitions (Chrome 126+, Safari 18.2+) ── */
-/* Smooth crossfade between pages instead of a blank white flash.
-   Ignored silently by older browsers — zero risk of breakage. */
-@view-transition { navigation: auto; }
-
-/* The nav is identical on every page — give it a stable identity so the
-   browser tracks it as a persistent element instead of fading it out
-   and back in with the rest of the page. Result: zero nav flicker. */
-.nav { view-transition-name: site-nav; }
-
-/* No animation needed for the nav itself — freeze it in place. */
-::view-transition-old(site-nav),
-::view-transition-new(site-nav) {
-  animation: none;
-}
 
 /* ── Reset ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -85,10 +70,6 @@ body {
   line-height: 1.7;
   color: var(--color-text);
   background: var(--color-bg);
-  /* Push content below the fixed nav.
-     Set via CSS (render-blocking), so it is always applied before first paint —
-     no layout shift regardless of when components.js injects the nav. */
-  padding-top: var(--nav-height);
 }
 /* Enable smooth theme transitions only once JS marks the page as ready */
 .theme-ready body { transition: background var(--transition), color var(--transition); }
@@ -123,15 +104,10 @@ p  { color: var(--color-text-muted); }
 .section-intro p  { font-size: 15px; }
 
 /* ── Navigation ── */
-/* #site-nav is a zero-height injection target.
-   Content offset is handled by body { padding-top } above, which is set
-   by render-blocking CSS — so there is never a layout shift from JS injection. */
 
 .nav {
-  position: fixed;
+  position: sticky;
   top: 0;
-  left: 0;
-  right: 0;
   z-index: 100;
   height: var(--nav-height);
   background: var(--color-nav-bg);
