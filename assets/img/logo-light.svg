@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 100" width="520" height="100">
+  <!-- Head icon -->
+  <g transform="translate(10, 8) scale(0.78)">
+    <path d="M52 8 C35 8 22 20 20 36 C18 48 24 58 32 65 C34 67 35 70 35 73 L35 82 L62 82 L62 73 C62 70 63 67 65 65 C73 58 79 48 77 36 C75 20 69 8 52 8Z" fill="#9ca3af"/>
+    <path d="M30 35 Q38 30 46 35 Q54 40 62 35" fill="none" stroke="#6b7280" stroke-width="3" stroke-linecap="round"/>
+    <path d="M27 47 Q37 41 47 47 Q57 53 67 47" fill="none" stroke="#6b7280" stroke-width="3" stroke-linecap="round"/>
+    <path d="M29 59 Q39 53 49 59 Q59 65 69 59" fill="none" stroke="#6b7280" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <!-- INVENEW wordmark -->
+  <text x="100" y="72" font-family="'Arial Black', 'Helvetica Neue', Arial, sans-serif" font-weight="900" font-size="62" fill="#111111" letter-spacing="-1">INVENEW</text>
+</svg>

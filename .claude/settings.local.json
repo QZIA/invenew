@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__Claude_Preview__preview_start",
+      "Bash(gh auth *)",
+      "Bash(git remote *)",
+      "Bash(git push *)",
+      "Bash(npm install *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(curl -s \"https://invenew-opal.vercel.app/api/newsletters\")",
+      "Bash(curl -s \"https://invenew-opal.vercel.app/api/blog\")",
+      "Bash(vercel --prod)",
+      "Bash(vercel env *)",
+      "Bash(git commit *)",
+      "Bash(curl -s \"https://invenew-opal.vercel.app/api/blog-debug\")",
+      "Bash(python3 -c ' *)",
+      "WebFetch(domain:invenew.vercel.app)"
+    ]
+  }
+}

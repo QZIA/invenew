@@ -97,6 +97,9 @@ p  { color: var(--color-text-muted); }
 .section-intro p  { font-size: 15px; }
 
 /* ── Navigation ── */
+/* Reserve nav height before JS injects the component — prevents layout shift */
+#site-nav { min-height: var(--nav-height); }
+
 .nav {
   position: sticky;
   top: 0;
