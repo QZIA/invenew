@@ -70,6 +70,80 @@
     });
   }
 
+  /* ── Language switcher ── */
+  function initLangSwitcher() {
+    const btn = document.getElementById('lang-toggle');
+    if (!btn) return;
+
+    const LANGUAGES = [
+      { code: 'en', label: 'English',    flag: '🇺🇸' },
+      { code: 'fr', label: 'Français',   flag: '🇫🇷' },
+      { code: 'de', label: 'Deutsch',    flag: '🇩🇪' },
+      { code: 'es', label: 'Español',    flag: '🇪🇸' },
+      { code: 'ar', label: 'العربية',    flag: '🇸🇦' },
+      { code: 'ja', label: '日本語',      flag: '🇯🇵' },
+    ];
+
+    // Build dropdown and attach to body so it's never clipped by the nav
+    var dropdown = document.createElement('div');
+    dropdown.className = 'lang-dropdown';
+    dropdown.setAttribute('role', 'menu');
+    dropdown.setAttribute('aria-label', 'Select language');
+
+    LANGUAGES.forEach(function (lang) {
+      var a = document.createElement('a');
+      var base = window.location.href.split('?')[0].split('#')[0];
+      if (lang.code === 'en') {
+        a.href = base;
+        a.className = 'active';
+      } else {
+        a.href = 'https://translate.google.com/translate?sl=en&tl=' +
+                 lang.code + '&u=' + encodeURIComponent(base);
+        a.target = '_blank';
+        a.rel = 'noopener';
+      }
+      a.setAttribute('role', 'menuitem');
+      a.innerHTML = '<span class="lang-flag">' + lang.flag + '</span>' +
+                    '<span>' + lang.label + '</span>';
+      dropdown.appendChild(a);
+    });
+
+    document.body.appendChild(dropdown);
+
+    function open() {
+      var r = btn.getBoundingClientRect();
+      dropdown.style.top   = (r.bottom + 6) + 'px';
+      dropdown.style.right = (window.innerWidth - r.right) + 'px';
+      dropdown.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+    }
+
+    function close() {
+      dropdown.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+    }
+
+    btn.setAttribute('aria-haspopup', 'true');
+    btn.setAttribute('aria-expanded', 'false');
+
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      dropdown.classList.contains('open') ? close() : open();
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!btn.contains(e.target) && !dropdown.contains(e.target)) close();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') close();
+    });
+
+    window.addEventListener('resize', function () {
+      if (dropdown.classList.contains('open')) open();
+    });
+  }
+
   /* ── Newsletter form (inline forms) ── */
   function initNewsletterForms() {
     document.querySelectorAll('.nl-form').forEach(function (form) {
@@ -108,6 +182,7 @@
     initMobileNav();
     setActiveNav();
     initNewsletterForms();
+    initLangSwitcher();
   });
 
   // Expose updateThemeIcon so components.js can sync the icon after nav injection
