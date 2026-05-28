@@ -97,27 +97,29 @@
 
     var imgContent = src
       ? '<img src="' + src + '" alt="' + title + '" loading="eager" decoding="async">'
-      : '<div class="post-img-placeholder">' + IMG_ICON + '</div>';
+      : IMG_ICON;
 
     el.innerHTML =
       '<article class="featured-post">' +
-        '<div class="featured-post-body">' +
-          '<div class="meta">' +
-            '<span class="card-tag">' + esc(cat) + '</span>' +
-            (date   ? '<time>'                     + date   + '</time>'  : '') +
-            (author ? '<span class="featured-author">By ' + author + '</span>' : '') +
+        '<a href="post.html?slug=' + encodeURIComponent(slug) + '" class="featured-post-link">' +
+          '<div class="featured-post-img">' + imgContent + '</div>' +
+          '<div class="featured-post-body">' +
+            '<div class="meta">' +
+              '<span class="card-tag">' + esc(cat) + '</span>' +
+              (date   ? '<time>'                     + date   + '</time>'  : '') +
+              (author ? '<span class="featured-author">By ' + author + '</span>' : '') +
+            '</div>' +
+            '<h2>' + title + '</h2>' +
+            (excerpt ? '<p>' + excerpt + '</p>' : '') +
+            '<div class="read-more">' +
+              '<span class="btn-text">' +
+                'Read article ' +
+                '<svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/>' +
+                '<polyline points="12 5 19 12 12 19"/></svg>' +
+              '</span>' +
+            '</div>' +
           '</div>' +
-          '<h2>' + title + '</h2>' +
-          (excerpt ? '<p>' + excerpt + '</p>' : '') +
-          '<div class="read-more">' +
-            '<a href="post.html?slug=' + encodeURIComponent(slug) + '" class="btn-text">' +
-              'Read article ' +
-              '<svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/>' +
-              '<polyline points="12 5 19 12 12 19"/></svg>' +
-            '</a>' +
-          '</div>' +
-        '</div>' +
-        '<div class="featured-post-img">' + imgContent + '</div>' +
+        '</a>' +
       '</article>';
   }
 
@@ -153,22 +155,24 @@
 
       html +=
         '<article class="blog-card">' +
-          '<div class="blog-card-img">' + imgInner + '</div>' +
-          '<div class="blog-card-body">' +
-            '<div class="meta">' +
-              '<span class="card-tag">' + esc(cat) + '</span>' +
-              (date ? '<time>' + date + '</time>' : '') +
+          '<a href="post.html?slug=' + encodeURIComponent(slug) + '" class="blog-card-link">' +
+            '<div class="blog-card-img">' + imgInner + '</div>' +
+            '<div class="blog-card-body">' +
+              '<div class="meta">' +
+                '<span class="card-tag">' + esc(cat) + '</span>' +
+                (date ? '<time>' + date + '</time>' : '') +
+              '</div>' +
+              '<h3>' + title + '</h3>' +
+              (excerpt ? '<p>' + excerpt + '</p>' : '') +
+              '<div class="read-more">' +
+                '<span class="btn-text">' +
+                  'Read article ' +
+                  '<svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/>' +
+                  '<polyline points="12 5 19 12 12 19"/></svg>' +
+                '</span>' +
+              '</div>' +
             '</div>' +
-            '<h3>' + title + '</h3>' +
-            (excerpt ? '<p>' + excerpt + '</p>' : '') +
-            '<div class="read-more">' +
-              '<a href="post.html?slug=' + encodeURIComponent(slug) + '" class="btn-text">' +
-                'Read article ' +
-                '<svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/>' +
-                '<polyline points="12 5 19 12 12 19"/></svg>' +
-              '</a>' +
-            '</div>' +
-          '</div>' +
+          '</a>' +
         '</article>';
     });
     container.innerHTML = html;
