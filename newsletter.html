@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Newsletter | INVENEW</title>
+  <meta name="description" content="Subscribe to INVENEW Intelligence — a weekly briefing on AI infrastructure, operations, and enterprise execution.">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .beehiiv-frame { width: 100%; border: none; border-radius: var(--radius-lg); min-height: 200px; display: block; background: transparent; }
+    .issue-list { list-style: none; }
+    .issue-item { border-bottom: 0.5px solid var(--color-border); padding: 18px 0; display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; }
+    .issue-item:last-child { border-bottom: none; }
+    .issue-title { font-size: 15px; font-weight: 500; color: var(--color-text); margin-bottom: 4px; }
+    .issue-date  { font-size: 12px; color: var(--color-text-faint); }
+    .issue-link  { flex-shrink: 0; font-size: 13px; color: var(--color-amber); white-space: nowrap; }
+    .topics-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; }
+  </style>
+  <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/components.js" defer></script>
+  <script src="assets/js/newsletter.js" defer></script>
+</head>
+<body>
+
+<div id="site-nav"></div>
+
+<!-- ── Page Hero ── -->
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow">NEWSLETTER</span>
+    <h1>Subscribe to INVENEW Intelligence.</h1>
+    <p>A weekly briefing on AI infrastructure, operations, and what it takes to move AI from pilots into production.</p>
+  </div>
+</section>
+
+<!-- ── Subscribe form — Beehiiv embed ── -->
+<section class="section">
+  <div class="container" style="max-width: 680px;">
+    <script async src="https://subscribe-forms.beehiiv.com/v3/loader.js" data-beehiiv-form="5543b1bf-0416-441e-bc0d-52486e4d72e0"></script>
+    <p style="font-size: 12px; color: var(--color-text-faint); text-align: center; margin-top: 10px;">
+      No spam &nbsp;·&nbsp; Vendor-neutral &nbsp;·&nbsp; Unsubscribe anytime
+    </p>
+  </div>
+</section>
+
+<!-- ── What you get ── -->
+<section class="section alt">
+  <div class="container">
+    <div class="section-intro">
+      <span class="eyebrow">WHAT YOU GET</span>
+      <h2>One read, every week. Designed for decision-makers.</h2>
+    </div>
+    <div class="grid-3">
+      <div class="card">
+        <h4>Signal, not noise</h4>
+        <p>What changed in AI infrastructure this week, why it matters, and what to watch. No recycled press releases.</p>
+      </div>
+      <div class="card">
+        <h4>Operator perspective</h4>
+        <p>Analysis written by someone who has built and run cloud infrastructure, not a journalist covering it from the outside.</p>
+      </div>
+      <div class="card">
+        <h4>Actionable framing</h4>
+        <p>Every issue ends with a clear takeaway — something you can bring to your next architecture discussion or leadership meeting.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Recent issues ── -->
+<section class="section">
+  <div class="container">
+    <div class="section-intro">
+      <span class="eyebrow">RECENT ISSUES</span>
+      <h2>Browse the latest letters.</h2>
+    </div>
+    <div id="newsletter-issues">
+      <div class="loading-state">
+        <div class="spinner"></div>
+        <p>Loading recent issues…</p>
+      </div>
+    </div>
+    <div id="newsletter-fallback" style="display:none; margin-top: 16px;">
+      <p style="font-size:14px; color: var(--color-text-muted);">
+        Browse all issues directly on
+        <a href="https://invenew.beehiiv.com" target="_blank" rel="noopener" style="color: var(--color-amber);">Beehiiv →</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Topics ── -->
+<section class="section alt">
+  <div class="container">
+    <div class="section-intro">
+      <span class="eyebrow">EDITORIAL TOPICS</span>
+      <h2>What INVENEW Intelligence covers.</h2>
+    </div>
+    <div class="topics-grid">
+      <div class="card">
+        <h4>AI infrastructure</h4>
+        <p>Compute, data, models, orchestration, observability, and cost.</p>
+      </div>
+      <div class="card">
+        <h4>SaaS operations</h4>
+        <p>Reliability, workflow, cloud operations, and operating models.</p>
+      </div>
+      <div class="card">
+        <h4>DataOps &amp; observability</h4>
+        <p>Data quality, pipelines, signals, monitoring, and feedback loops.</p>
+      </div>
+      <div class="card">
+        <h4>Governance &amp; risk</h4>
+        <p>Controls, permissions, security, policy, and accountability.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Sponsor CTA ── -->
+<section class="section">
+  <div class="container">
+    <div class="section-intro">
+      <span class="eyebrow">FOR SPONSORS</span>
+      <h2>Reach readers who care about AI infrastructure and production execution.</h2>
+      <p>Newsletter sponsorship connects relevant B2B vendors with readers already paying attention to cloud operations, AI infrastructure, SaaS platforms, data, observability, security, and automation.</p>
+    </div>
+    <a href="sponsors.html" class="btn-primary">View sponsorship options</a>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+
+</body>
+</html>

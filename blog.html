@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blog | INVENEW</title>
+  <meta name="description" content="Founder notes from INVENEW on AI-native infrastructure, SaaS operations, cloud, DevOps, DataOps, observability, governance, and practical AI execution.">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .filter-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+    .filter-btn { font-size: 12px; padding: 5px 14px; border-radius: var(--radius-pill); border: 0.5px solid var(--color-border-med); background: transparent; color: var(--color-text-muted); cursor: pointer; transition: all var(--transition); font-family: var(--font-sans); }
+    .filter-btn:hover, .filter-btn.active { background: var(--color-text); color: var(--color-bg); border-color: var(--color-text); }
+  </style>
+  <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/components.js" defer></script>
+  <script src="assets/js/blog.js" defer></script>
+</head>
+<body>
+
+<div id="site-nav"></div>
+
+<!-- ── Page Hero ── -->
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow">BLOG</span>
+    <h1>Latest writing.</h1>
+    <p>Practical notes on AI-native infrastructure, SaaS operations, cloud, DataOps, observability, governance, and execution.</p>
+  </div>
+</section>
+
+<!-- ── Blog posts ── -->
+<section class="section">
+  <div class="container">
+    <div class="filter-row" id="filter-row">
+      <button class="filter-btn active" data-topic="all">All</button>
+      <button class="filter-btn" data-topic="ai-infrastructure">AI Infrastructure</button>
+      <button class="filter-btn" data-topic="saas-operations">SaaS Operations</button>
+      <button class="filter-btn" data-topic="dataops">DataOps &amp; Observability</button>
+      <button class="filter-btn" data-topic="governance">Governance &amp; Risk</button>
+    </div>
+
+    <div id="blog-posts" class="blog-grid">
+      <div class="loading-state" style="grid-column: 1/-1;">
+        <div class="spinner"></div>
+        <p>Loading articles…</p>
+      </div>
+    </div>
+
+    <div id="blog-fallback" style="display:none; margin-top: 16px;">
+      <p style="font-size:14px; color: var(--color-text-muted);">
+        Configure your Sanity project ID in <code>assets/js/blog.js</code> to load posts here, or
+        <a href="https://invenew.sanity.studio" target="_blank" rel="noopener" style="color: var(--color-amber);">visit the CMS →</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Topics ── -->
+<section class="section alt">
+  <div class="container">
+    <div class="section-intro">
+      <span class="eyebrow">EDITORIAL TOPICS</span>
+      <h2>Editorial lanes keep the signal focused.</h2>
+    </div>
+    <div class="grid-4">
+      <div class="card">
+        <h4>AI Infrastructure</h4>
+        <p>Compute, data, models, orchestration, observability, and cost.</p>
+      </div>
+      <div class="card">
+        <h4>SaaS Operations</h4>
+        <p>Reliability, support, workflow, cloud operations, and operating models.</p>
+      </div>
+      <div class="card">
+        <h4>DataOps &amp; Observability</h4>
+        <p>Data quality, pipelines, signals, monitoring, and production feedback.</p>
+      </div>
+      <div class="card">
+        <h4>Governance &amp; Risk</h4>
+        <p>Controls, permissions, security, policy, and accountability.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="nl-strip">
+  <div class="container">
+    <h2>Get the weekly briefing.</h2>
+    <p>Subscribe to INVENEW Intelligence — practical signal, no hype.</p>
+    <script async src="https://subscribe-forms.beehiiv.com/v3/loader.js" data-beehiiv-form="5543b1bf-0416-441e-bc0d-52486e4d72e0"></script>
+  </div>
+</div>
+
+<div id="site-footer"></div>
+
+</body>
+</html>
