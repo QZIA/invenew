@@ -15,6 +15,37 @@
     .best-fit-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
     .best-fit-item { font-size: 14px; color: var(--color-text-muted); padding: 10px 14px; border: 0.5px solid var(--color-border); border-radius: var(--radius-md); }
     .form-wrap { max-width: 600px; }
+
+    /* ── LinkedIn Groups table ── */
+    .li-groups-table {
+      width: 100%; border-collapse: collapse; font-size: 14px;
+    }
+    .li-groups-table th {
+      text-align: left; font-size: 11px; font-weight: 600;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--color-text-faint); padding: 0 0 10px;
+      border-bottom: 0.5px solid var(--color-border-med);
+    }
+    .li-groups-table th.num-col,
+    .li-groups-table td.num-col { text-align: right; }
+    .li-groups-table td {
+      padding: 9px 0; border-bottom: 0.5px solid var(--color-border);
+      color: var(--color-text-muted); vertical-align: middle;
+    }
+    .li-groups-table tbody tr:last-child td { border-bottom: none; }
+    .li-groups-table td a {
+      color: var(--color-text); font-weight: 500; text-decoration: none;
+    }
+    .li-groups-table td a:hover { color: var(--color-slate); text-decoration: underline; }
+    .li-groups-table tfoot td {
+      padding-top: 13px; border-top: 0.5px solid var(--color-border-med);
+      border-bottom: none; font-weight: 600; color: var(--color-text); font-size: 14px;
+    }
+    .li-groups-table tfoot .num-col { color: var(--color-amber); font-size: 15px; }
+    .li-groups-two-col {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0 40px;
+    }
+    @media (max-width: 640px) { .li-groups-two-col { grid-template-columns: 1fr; } }
   </style>
   <script src="assets/js/main.js" defer></script>
   <script src="assets/js/components.js" defer></script>
@@ -84,7 +115,7 @@
         <div class="lbl">LinkedIn followers</div>
       </div>
       <div class="stat-block">
-        <div class="num">2.5M+</div>
+        <div class="num">3.5M+</div>
         <div class="lbl">LinkedIn group members</div>
       </div>
       <div class="stat-block">
@@ -118,6 +149,56 @@
   </div>
 </section>
 
+<!-- ── LinkedIn Group Distribution ── -->
+<section class="section alt">
+  <div class="container">
+    <div class="section-intro">
+      <span class="eyebrow">LINKEDIN GROUP DISTRIBUTION</span>
+      <h2>3.5M members across 20 owned LinkedIn groups.</h2>
+      <p>Highly engaged professional communities covering AI, cloud, DevOps, data, security, and startup ecosystems — all owned and operated by INVENEW's founder.</p>
+    </div>
+    <div class="li-groups-two-col">
+      <table class="li-groups-table">
+        <thead>
+          <tr><th>Group</th><th class="num-col">Members</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><a href="https://www.linkedin.com/groups/3732032/" target="_blank" rel="noopener">IT Professionals</a></td><td class="num-col">1,368,600</td></tr>
+          <tr><td><a href="https://www.linkedin.com/groups/762547/" target="_blank" rel="noopener">Big Data</a></td><td class="num-col">399,700</td></tr>
+          <tr><td><a href="https://www.linkedin.com/groups/3746827/" target="_blank" rel="noopener">Artificial Intelligence</a></td><td class="num-col">357,600</td></tr>
+          <tr><td><a href="https://www.linkedin.com/groups/3814519/" target="_blank" rel="noopener">FinTech</a></td><td class="num-col">314,464</td></tr>
+          <tr><td><a href="https://www.linkedin.com/groups/3732005/" target="_blank" rel="noopener">Technology Leadership</a></td><td class="num-col">194,300</td></tr>
+          <tr><td><a href="https://www.linkedin.com/groups/3755987/" target="_blank" rel="noopener">Startups</a></td><td class="num-col">117,274</td></tr>
+          <tr><td><a href="https://www.linkedin.com/groups/3763996/" target="_blank" rel="noopener">DevOps</a></td><td class="num-col">116,460</td></tr>
+          <tr><td><a href="https://www.linkedin.com/groups/1922105/" target="_blank" rel="noopener">Crypto</a></td><td class="num-col">110,191</td></tr>
+          <tr><td><a href="https://www.linkedin.com/groups/3748455/" target="_blank" rel="noopener">Amazon Web Services</a></td><td class="num-col">93,281</td></tr>
+          <tr><td><a href="https://www.linkedin.com/groups/3745731/" target="_blank" rel="noopener">Solopreneur</a></td><td class="num-col">80,173</td></tr>
+        </tbody>
+      </table>
+      <table class="li-groups-table">
+        <thead>
+          <tr><th>Group</th><th class="num-col">Members</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><a href="https://www.linkedin.com/groups/3765470/" target="_blank" rel="noopener">Docker</a></td><td class="num-col">69,769</td></tr>
+          <tr><td><a href="https://www.linkedin.com/groups/3735067/" target="_blank" rel="noopener">IoT</a></td><td class="num-col">59,018</td></tr>
+          <tr><td><a href="https://www.linkedin.com/groups/3750028/" target="_blank" rel="noopener">Canada Startups</a></td><td class="num-col">48,168</td></tr>
+          <tr><td><a href="https://www.linkedin.com/groups/3815052/" target="_blank" rel="noopener">AI Professionals</a></td><td class="num-col">31,982</td></tr>
+          <tr><td><a href="https://www.linkedin.com/groups/3748399/" target="_blank" rel="noopener">SaaS</a></td><td class="num-col">29,662</td></tr>
+          <tr><td><a href="https://www.linkedin.com/groups/3748642/" target="_blank" rel="noopener">Quantum Computing</a></td><td class="num-col">27,425</td></tr>
+          <tr><td><a href="https://www.linkedin.com/groups/3750024/" target="_blank" rel="noopener">CISO</a></td><td class="num-col">26,654</td></tr>
+          <tr><td><a href="https://www.linkedin.com/groups/3814542/" target="_blank" rel="noopener">Europe Startups</a></td><td class="num-col">24,202</td></tr>
+          <tr><td><a href="https://www.linkedin.com/groups/3748530/" target="_blank" rel="noopener">CDO</a></td><td class="num-col">19,242</td></tr>
+          <tr><td><a href="https://www.linkedin.com/groups/3754755/" target="_blank" rel="noopener">AI Operations</a></td><td class="num-col">13,830</td></tr>
+        </tbody>
+        <tfoot>
+          <tr><td>Total group reach</td><td class="num-col">3,501,995</td></tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</section>
+
 <!-- ── Sponsorship options ── -->
 <section class="section alt">
   <div class="container">
@@ -137,7 +218,7 @@
         <div class="sponsor-opt-type">LINKEDIN</div>
         <h4>LinkedIn campaign</h4>
         <div class="price">From $750 <span>/ campaign</span></div>
-        <p>Support a practical post series that explains a problem, category, or buyer question to 45K+ followers and 2.5M group members.</p>
+        <p>Support a practical post series that explains a problem, category, or buyer question to 45K+ followers and 3.5M group members.</p>
       </div>
       <div class="sponsor-opt">
         <div class="sponsor-opt-type">RESEARCH</div>
