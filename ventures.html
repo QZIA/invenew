@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <script>!function(){try{var t=localStorage.getItem("invenew-theme")||(window.matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");document.documentElement.setAttribute("data-theme",t);if(t==="dark"){document.documentElement.style.background="#111111";document.documentElement.style.colorScheme="dark"}}catch(e){}}();</script><!-- theme-init-inline -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ventures | INVENEW</title>
+  <meta name="description" content="INVENEW Ventures builds AI-native products, ventures, and spinouts from validated market opportunities identified through INVENEW Intelligence and Labs.">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    /* ── Flywheel ── */
+    .flywheel {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      align-items: center;
+      gap: 0;
+      margin: 0 auto;
+      max-width: 860px;
+    }
+    .flywheel-step {
+      background: var(--color-card-bg);
+      border: 0.5px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+      text-align: center;
+    }
+    .flywheel-step .step-num {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-amber);
+      margin-bottom: 10px;
+    }
+    .flywheel-step h4 { margin-bottom: 8px; }
+    .flywheel-step p  { font-size: 13px; margin: 0; }
+    .flywheel-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 12px;
+      color: var(--color-text-faint);
+    }
+    .flywheel-arrow svg { width: 20px; height: 20px; }
+    @media (max-width: 680px) {
+      .flywheel {
+        grid-template-columns: 1fr;
+        max-width: 360px;
+      }
+      .flywheel-arrow { transform: rotate(90deg); padding: 8px 0; }
+    }
+
+    /* ── Focus area tags ── */
+    .focus-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 4px;
+    }
+    .focus-tag {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-text-muted);
+      background: var(--color-bg-secondary);
+      border: 0.5px solid var(--color-border);
+      border-radius: var(--radius-pill);
+      padding: 7px 16px;
+      transition: background var(--transition), color var(--transition), border-color var(--transition);
+    }
+    .focus-tag:hover {
+      background: var(--color-amber-light);
+      color: var(--color-amber);
+      border-color: var(--color-amber);
+    }
+
+    /* ── Criteria list ── */
+    .criteria-list { list-style: none; }
+    .criteria-list li {
+      display: flex;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 0.5px solid var(--color-border);
+      font-size: 15px;
+      color: var(--color-text-muted);
+    }
+    .criteria-list li:last-child { border-bottom: none; }
+    .criteria-list li::before {
+      content: "";
+      flex-shrink: 0;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--color-amber);
+      margin-top: 8px;
+    }
+
+    /* ── Connect cards ── */
+    .connect-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .connect-card {
+      background: var(--color-card-bg);
+      border: 0.5px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 28px 24px 24px;
+    }
+    .connect-card .connect-type {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-amber);
+      margin-bottom: 10px;
+    }
+    .connect-card h4 { margin-bottom: 10px; }
+    .connect-card p  { font-size: 14px; margin-bottom: 20px; }
+    @media (max-width: 720px) {
+      .connect-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+  <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/components.js" defer></script>
+</head>
+<body>
+
+<nav class="nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo" aria-label="INVENEW home">
+      <img src="assets/img/INVENEW-light-long1.png" alt="INVENEW" class="logo-light">
+      <img src="assets/img/INVENEW-dark-long1.png"  alt="INVENEW" class="logo-dark">
+    </a>
+    <ul class="nav-links" role="list">
+      <li><a href="intelligence.html">Intelligence</a></li>
+      <li><a href="labs.html">Labs</a></li>
+      <li><a href="newsletter.html">Newsletter</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="btn-icon" id="lang-toggle" aria-label="Language">
+        <svg viewBox="0 0 24 24" aria-hidden="true" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      </button>
+      <button class="btn-icon" id="theme-toggle" aria-label="Switch to dark mode">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <button class="nav-hamburger" id="nav-hamburger" aria-expanded="false" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+      <a href="newsletter.html" class="btn-subscribe">Subscribe</a>
+    </div>
+  </div>
+  <div class="mobile-nav" id="mobile-nav" role="dialog" aria-label="Mobile navigation">
+    <a href="intelligence.html">Intelligence</a>
+    <a href="labs.html">Labs</a>
+    <a href="newsletter.html">Newsletter</a>
+    <a href="blog.html">Blog</a>
+    <a href="about.html">About</a>
+    <a href="newsletter.html" class="btn-subscribe">Subscribe free</a>
+  </div>
+</nav>
+
+<!-- ── Page Hero ── -->
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow">INVENEW VENTURES</span>
+    <h1>Build what the market actually needs.</h1>
+    <p>AI-native products, ventures, and spinouts built from validated opportunities — identified through INVENEW Intelligence and stress-tested in Labs before a line of code is written.</p>
+    <div class="hero-actions">
+      <a href="#connect" class="btn-primary">Express interest</a>
+      <a href="about.html" class="btn-outline" style="color:#aaa; border-color:#333;">About INVENEW</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── The thesis ── -->
+<section class="section">
+  <div class="container">
+    <div class="section-intro">
+      <span class="eyebrow">THE THESIS</span>
+      <h2>Most ventures fail because founders are solving for problems they read about, not problems they've lived.</h2>
+      <p>INVENEW Ventures inverts this. Every week, the INVENEW Intelligence briefing surfaces real pain points from the people running AI in production. Labs tests solutions before committing to them. Ventures builds from that pipeline — with operator credibility baked in from day one.</p>
+    </div>
+    <div class="grid-3">
+      <div class="card">
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+        </div>
+        <h4>Intelligence-led</h4>
+        <p>25+ years of running cloud infrastructure and SaaS operations. We know which problems are real, which categories are maturing, and where the gaps are — because we cover them every week.</p>
+      </div>
+      <div class="card">
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        </div>
+        <h4>Labs-validated</h4>
+        <p>Ideas go through INVENEW Labs before becoming ventures. Prototypes, benchmarks, and workflow tests validate the opportunity before capital and time are committed.</p>
+      </div>
+      <div class="card">
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <h4>Distribution-ready</h4>
+        <p>New ventures launch into an existing audience of 45K+ LinkedIn followers, 3.5M group members, and a growing subscriber base of the exact buyers they need to reach.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── The flywheel ── -->
+<section class="section alt">
+  <div class="container">
+    <div class="section-intro">
+      <span class="eyebrow">HOW IT WORKS</span>
+      <h2>Intelligence informs. Labs validates. Ventures builds.</h2>
+      <p>The INVENEW flywheel turns market intelligence into validated product opportunities — systematically, not opportunistically.</p>
+    </div>
+    <div class="flywheel">
+      <div class="flywheel-step">
+        <div class="step-num">01 — Intelligence</div>
+        <h4>Surface the gap</h4>
+        <p>Weekly coverage reveals recurring pain points, unserved categories, and architectural problems real enterprises are stuck on.</p>
+      </div>
+      <div class="flywheel-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </div>
+      <div class="flywheel-step">
+        <div class="step-num">02 — Labs</div>
+        <h4>Validate the idea</h4>
+        <p>Prototypes, experiments, and benchmarks test whether the problem is real, the solution is feasible, and the market is ready.</p>
+      </div>
+      <div class="flywheel-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </div>
+      <div class="flywheel-step">
+        <div class="step-num">03 — Ventures</div>
+        <h4>Build the product</h4>
+        <p>Validated opportunities become AI-native products, spinouts, or co-founded ventures — with distribution, credibility, and a known customer base from launch.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Focus areas ── -->
+<section class="section">
+  <div class="container">
+    <div class="section-intro">
+      <span class="eyebrow">FOCUS AREAS</span>
+      <h2>Where INVENEW Ventures builds.</h2>
+      <p>Every venture starts with a validated gap in the AI-native infrastructure and operations layer — the categories INVENEW covers and understands from first principles.</p>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <span class="card-tag">Infrastructure</span>
+        <h3>AI infrastructure tooling</h3>
+        <p>Products that make it easier to build, deploy, observe, and cost-manage AI workloads in production — filling gaps the hyperscalers won't prioritise and existing DevOps tooling doesn't cover.</p>
+      </div>
+      <div class="card">
+        <span class="card-tag">Operations</span>
+        <h3>AI-native operations platforms</h3>
+        <p>Workflow automation, LLMOps, and operational tooling for enterprises moving AI from pilots into governed, measurable production — including agent orchestration and human-in-the-loop systems.</p>
+      </div>
+      <div class="card">
+        <span class="card-tag">Governance</span>
+        <h3>AI governance &amp; trust tooling</h3>
+        <p>Controls, audit trails, policy enforcement, and risk management for enterprise AI — built for regulated industries and large organisations where accountability is non-negotiable.</p>
+      </div>
+      <div class="card">
+        <span class="card-tag">Data &amp; Observability</span>
+        <h3>DataOps &amp; AI observability</h3>
+        <p>Signal quality, pipeline reliability, model monitoring, and feedback loops that close the gap between training performance and production behaviour at scale.</p>
+      </div>
+    </div>
+    <div style="margin-top: 32px;">
+      <p style="font-size: 14px; color: var(--color-text-faint); margin-bottom: 14px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em;">Also watching</p>
+      <div class="focus-tags">
+        <span class="focus-tag">AI-native SaaS</span>
+        <span class="focus-tag">FinOps for AI</span>
+        <span class="focus-tag">Developer tooling</span>
+        <span class="focus-tag">AI security</span>
+        <span class="focus-tag">Agentic workflows</span>
+        <span class="focus-tag">Enterprise AI adoption</span>
+        <span class="focus-tag">AI-native DevOps</span>
+        <span class="focus-tag">Vertical AI applications</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── What we look for ── -->
+<section class="section alt">
+  <div class="container">
+    <div class="section-intro">
+      <span class="eyebrow">OPPORTUNITY CRITERIA</span>
+      <h2>What makes a strong INVENEW venture.</h2>
+      <p>Not every gap is a business. These are the filters applied before an opportunity moves from Labs hypothesis to active venture.</p>
+    </div>
+    <div class="grid-2">
+      <ul class="criteria-list">
+        <li>The problem is infrastructure or operations-layer — not application or UI-layer</li>
+        <li>Enterprise teams are already spending money to work around it today</li>
+        <li>The AI-native version is meaningfully better than what exists — not just an LLM wrapper</li>
+        <li>The founding team has lived the problem, not just read about it</li>
+      </ul>
+      <ul class="criteria-list">
+        <li>The category has at least one clear buyer persona with budget authority</li>
+        <li>INVENEW's existing distribution provides a real go-to-market advantage</li>
+        <li>It can be validated in Labs before significant capital is committed</li>
+        <li>The business model is clear — not dependent on a future monetisation hypothesis</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ── Connect ── -->
+<section class="section" id="connect">
+  <div class="container">
+    <div class="section-intro">
+      <span class="eyebrow">GET INVOLVED</span>
+      <h2>Build with INVENEW, or stay close to the pipeline.</h2>
+      <p>INVENEW Ventures is actively sourcing. If you're building in this space, have a validated problem worth pursuing, or want to stay connected to what's in the pipeline — reach out.</p>
+    </div>
+    <div class="connect-grid">
+      <div class="connect-card">
+        <div class="connect-type">Co-founders &amp; operators</div>
+        <h4>Build together</h4>
+        <p>If you've lived a problem in the AI infrastructure or operations layer and want to build with a credible media platform behind you, let's talk.</p>
+        <a href="mailto:ventures@invenew.com" class="btn-primary" style="display:inline-block;">Start a conversation</a>
+      </div>
+      <div class="connect-card">
+        <div class="connect-type">Investors &amp; angels</div>
+        <h4>Follow the pipeline</h4>
+        <p>INVENEW Ventures surfaces opportunities that are intelligence-validated and Labs-tested before they're pitched. If you invest in AI infrastructure, join the list.</p>
+        <a href="mailto:ventures@invenew.com" class="btn-outline" style="display:inline-block;">Join the pipeline list</a>
+      </div>
+      <div class="connect-card">
+        <div class="connect-type">Enterprises &amp; buyers</div>
+        <h4>Shape what gets built</h4>
+        <p>The best ventures solve problems enterprises are already paying to work around. If you're a technology leader with an unsolved infrastructure problem, we want to hear it.</p>
+        <a href="mailto:ventures@invenew.com" class="btn-outline" style="display:inline-block;">Share a problem</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Newsletter strip ── -->
+<div class="nl-strip">
+  <div class="container">
+    <div class="nl-strip-text">
+      <h2>Follow the intelligence that feeds the ventures.</h2>
+      <p>Every INVENEW Ventures opportunity starts with the weekly briefing. Subscribe to stay inside the signal.</p>
+    </div>
+    <div class="nl-strip-form">
+      <script async src="https://subscribe-forms.beehiiv.com/v3/loader.js" data-beehiiv-form="5543b1bf-0416-441e-bc0d-52486e4d72e0"></script>
+    </div>
+  </div>
+</div>
+
+<div id="site-footer"></div>
+
+</body>
+</html>
