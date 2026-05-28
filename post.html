@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Article | INVENEW</title>
+  <meta name="description" content="">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    /* ── Post layout ── */
+    .post-wrap   { max-width: 740px; }
+    .post-header { margin-bottom: 36px; }
+    .post-meta   { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+    .post-meta time { font-size: 13px; color: var(--color-text-faint); }
+    .post-meta .post-author { font-size: 13px; color: var(--color-text-faint); }
+    .post-header h1 {
+      font-size: clamp(24px, 4vw, 38px);
+      font-weight: 700;
+      line-height: 1.25;
+      color: var(--color-text);
+      margin-bottom: 0;
+    }
+    .post-hero-img {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      border-radius: var(--radius-lg);
+      margin-bottom: 36px;
+      display: block;
+    }
+
+    /* ── Prose body ── */
+    .post-body { font-size: 16px; line-height: 1.8; color: var(--color-text-muted); }
+    .post-body p   { margin-bottom: 20px; }
+    .post-body h1, .post-body h2 { font-size: clamp(18px, 2.5vw, 24px); font-weight: 700; color: var(--color-text); margin: 40px 0 14px; line-height: 1.3; }
+    .post-body h3, .post-body h4 { font-size: 18px; font-weight: 600; color: var(--color-text); margin: 32px 0 10px; line-height: 1.3; }
+    .post-body ul, .post-body ol  { padding-left: 22px; margin-bottom: 20px; }
+    .post-body li  { margin-bottom: 8px; }
+    .post-body a   { color: var(--color-slate); text-decoration: underline; text-underline-offset: 3px; }
+    .post-body a:hover { opacity: 0.8; }
+    .post-body strong { color: var(--color-text); font-weight: 600; }
+    .post-body code   { font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 0.88em;
+                        background: var(--color-bg-secondary); padding: 2px 6px; border-radius: 4px; }
+    .post-body blockquote {
+      border-left: 3px solid var(--color-slate);
+      margin: 28px 0; padding: 12px 0 12px 20px;
+      color: var(--color-text-muted); font-style: italic;
+    }
+    .post-body img { max-width: 100%; height: auto; border-radius: var(--radius-md); margin: 20px 0; display: block; }
+    .post-body s   { opacity: 0.6; }
+
+    /* ── Back link ── */
+    .post-back { display: inline-flex; align-items: center; gap: 6px; font-size: 14px;
+                 color: var(--color-text-muted); margin-bottom: 32px; transition: color var(--transition); }
+    .post-back:hover { color: var(--color-text); }
+    .post-back svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2;
+                     fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* ── Loading / error states ── */
+    .post-loading { display: flex; flex-direction: column; align-items: center;
+                    padding: 80px 0; gap: 16px; color: var(--color-text-faint); font-size: 14px; }
+    .post-loading .spinner { width: 22px; height: 22px; border: 2px solid var(--color-border);
+                             border-top-color: var(--color-amber); border-radius: 50%;
+                             animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .post-error { text-align: center; padding: 80px 0; color: var(--color-text-muted); }
+    .post-error h2 { font-size: 20px; margin-bottom: 10px; }
+    .post-error a  { color: var(--color-slate); }
+  </style>
+  <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/components.js" defer></script>
+</head>
+<body>
+
+<div id="site-nav"></div>
+
+<section class="section" style="padding-top: 40px;">
+  <div class="container">
+    <div class="post-wrap">
+
+      <a href="blog.html" class="post-back">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        Back to blog
+      </a>
+
+      <div id="post-content">
+        <div class="post-loading">
+          <div class="spinner"></div>
+          <p>Loading article…</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+
+<script>
+(function () {
+  'use strict';
+
+  function esc(str) {
+    return String(str || '')
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function formatDate(str) {
+    if (!str) return '';
+    try {
+      return new Date(str).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    } catch (e) { return str; }
+  }
+
+  function getSlug() {
+    var params = new URLSearchParams(window.location.search);
+    return (params.get('slug') || '').trim();
+  }
+
+  function showError(msg) {
+    document.getElementById('post-content').innerHTML =
+      '<div class="post-error">' +
+        '<h2>' + esc(msg || 'Article not found.') + '</h2>' +
+        '<p><a href="blog.html">&larr; Back to blog</a></p>' +
+      '</div>';
+  }
+
+  function render(post) {
+    var date   = formatDate(post.publishedAt || post._createdAt);
+    var cat    = (post.category && post.category.title) || (post.tag && post.tag.title) || '';
+    var author = post.author && post.author.name ? post.author.name : '';
+
+    // Update page title and meta description
+    if (post.title) {
+      document.title = esc(post.title) + ' | INVENEW';
+      var metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc) metaDesc.setAttribute('content', esc(post.title) + ' — INVENEW Intelligence');
+    }
+
+    var heroImg = post.imageUrl
+      ? '<img class="post-hero-img" src="' + esc(post.imageUrl) + '?w=1200&h=675&fit=crop&auto=format&q=85" ' +
+          'alt="' + esc(post.title) + '" loading="eager">'
+      : '';
+
+    var metaParts = [];
+    if (cat)    metaParts.push('<span class="card-tag">' + esc(cat) + '</span>');
+    if (date)   metaParts.push('<time>' + esc(date) + '</time>');
+    if (author) metaParts.push('<span class="post-author">By ' + esc(author) + '</span>');
+
+    document.getElementById('post-content').innerHTML =
+      '<div class="post-header">' +
+        (metaParts.length ? '<div class="post-meta">' + metaParts.join('') + '</div>' : '') +
+        '<h1>' + esc(post.title || 'Untitled') + '</h1>' +
+      '</div>' +
+      heroImg +
+      '<div class="post-body">' + (post.bodyHtml || '<p>No content available.</p>') + '</div>';
+  }
+
+  function load() {
+    var slug = getSlug();
+    if (!slug) { showError('No article specified.'); return; }
+
+    fetch('/api/post?slug=' + encodeURIComponent(slug))
+      .then(function (res) {
+        if (res.status === 404) throw new Error('not_found');
+        if (!res.ok) throw new Error('http_' + res.status);
+        return res.json();
+      })
+      .then(function (data) {
+        if (!data.result) throw new Error('not_found');
+        render(data.result);
+      })
+      .catch(function (err) {
+        if (err.message === 'not_found') {
+          showError('Article not found.');
+        } else {
+          showError('Could not load article. Please try again.');
+        }
+        console.error('[INVENEW] post load error:', err);
+      });
+  }
+
+  document.addEventListener('DOMContentLoaded', load);
+})();
+</script>
+
+</body>
+</html>
