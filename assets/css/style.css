@@ -587,6 +587,12 @@ p  { color: var(--color-text-muted); }
   border-radius: var(--radius-lg);
   overflow: hidden;
   transition: border-color var(--transition);
+  position: relative;
+  cursor: pointer;
+}
+/* Stretch the Read link to cover the entire featured card */
+.featured-post .btn-text::after {
+  content: ''; position: absolute; inset: 0;
 }
 .featured-post:hover { border-color: var(--color-border-med); }
 .featured-post-body {
@@ -646,6 +652,12 @@ p  { color: var(--color-text-muted); }
   transition: border-color var(--transition);
   display: flex;
   flex-direction: column;
+  position: relative;
+  cursor: pointer;
+}
+/* Stretch the Read link to cover the entire card */
+.blog-card .btn-text::after {
+  content: ''; position: absolute; inset: 0;
 }
 .blog-card:hover { border-color: var(--color-border-med); }
 .blog-card-img {
