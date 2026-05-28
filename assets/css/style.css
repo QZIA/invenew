@@ -587,6 +587,23 @@ p  { color: var(--color-text-muted); }
 .lab-table td:first-child { color: var(--color-text); font-weight: 500; }
 .lab-table tr:last-child td { border-bottom: none; }
 
+/* ── Platform overview diagram ── */
+.platform-diagram {
+  max-width: 860px;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-lg);
+  border: 0.5px solid var(--color-border);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+  display: block;
+  margin: 0 auto;
+}
+/* Soften the bright white background in dark mode */
+[data-theme="dark"] .platform-diagram {
+  opacity: 0.88;
+  filter: brightness(0.93);
+}
+
 /* ── Beehiiv embed wrapper ── */
 .beehiiv-embed {
   background: var(--color-card-bg);
