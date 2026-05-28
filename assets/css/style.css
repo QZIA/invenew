@@ -306,21 +306,42 @@ p  { color: var(--color-text-muted); }
 }
 .hero .container { max-width: 1200px; position: relative; z-index: 1; }
 
-/* Hero video panel */
+/* Hero video panel — seamless, blended into hero background */
 .hero-video-wrap {
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  border: 0.5px solid var(--color-border-med);
-  box-shadow: 0 8px 40px rgba(0,0,0,0.10);
+  position: relative;
   line-height: 0;
+  /* No hard border or shadow — edges dissolve into bg */
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  overflow: visible;
+  /* Vignette: fade all four edges into the background */
+  -webkit-mask-image: radial-gradient(ellipse 88% 84% at 52% 50%, black 26%, rgba(0,0,0,0.6) 50%, transparent 72%);
+  mask-image:         radial-gradient(ellipse 88% 84% at 52% 50%, black 26%, rgba(0,0,0,0.6) 50%, transparent 72%);
 }
-[data-theme="dark"] .hero-video-wrap {
-  box-shadow: 0 8px 40px rgba(0,0,0,0.36);
+/* Amber → slate brand color overlay */
+.hero-video-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(194,153,60,0.14) 0%, rgba(95,118,140,0.10) 100%);
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+[data-theme="dark"] .hero-video-wrap::after {
+  background: linear-gradient(135deg, rgba(212,168,64,0.11) 0%, rgba(122,154,181,0.08) 100%);
 }
 .hero-video-wrap video {
   width: 100%;
   height: auto;
   display: block;
+  /* Desaturate slightly and warm up to match brand palette */
+  filter: saturate(0.78) brightness(1.02);
+  opacity: 0.92;
+}
+[data-theme="dark"] .hero-video-wrap video {
+  filter: saturate(0.65) brightness(0.88);
+  opacity: 0.82;
 }
 
 /* Ambient gradient blobs */
@@ -352,11 +373,15 @@ p  { color: var(--color-text-muted); }
 /* Split layout */
 .hero-split {
   display: grid;
-  grid-template-columns: 1fr 420px;
-  gap: 64px;
+  grid-template-columns: 1fr 540px;
+  gap: 40px;
   align-items: center;
 }
 .hero-content { max-width: 580px; }
+/* Allow video to bleed right so the vignette merges with page edge */
+.hero-card-wrap {
+  margin-right: -48px;
+}
 
 .hero-eyebrow {
   display: inline-flex;
