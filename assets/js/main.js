@@ -158,81 +158,162 @@
     });
   }
 
-  /* ── Hero canvas: animated particle network ── */
+  /* ── Hero canvas: INVENEW platform visualization ── */
   function initHeroCanvas() {
     var canvas = document.getElementById('hero-canvas');
     if (!canvas) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     var ctx = canvas.getContext('2d');
-    var COUNT = 58;
-    var MAX_DIST = 155;
     var DPR = Math.min(window.devicePixelRatio || 1, 2);
-    var nodes = [];
-    var raf;
+    var raf, W, H, tick = 0;
+
+    // Semantic nodes — anchor positions as fractions of canvas size
+    var DEFS = [
+      // Platform nodes (amber, prominent)
+      { abbr:'INT', label:'Intelligence',  cat:'platform',  ax:0.13, ay:0.24 },
+      { abbr:'LAB', label:'Labs',          cat:'platform',  ax:0.82, ay:0.26 },
+      { abbr:'VNT', label:'Ventures',      cat:'platform',  ax:0.51, ay:0.72 },
+      { abbr:'NWS', label:'Newsletter',    cat:'platform',  ax:0.24, ay:0.84 },
+      // Tech nodes (slate)
+      { abbr:'AI',  label:'AI / ML',       cat:'tech',      ax:0.29, ay:0.13 },
+      { abbr:'INF', label:'Infrastructure',cat:'tech',      ax:0.65, ay:0.15 },
+      { abbr:'CLD', label:'Cloud',         cat:'tech',      ax:0.79, ay:0.50 },
+      { abbr:'COD', label:'Code',          cat:'tech',      ax:0.16, ay:0.57 },
+      { abbr:'DAT', label:'Data',          cat:'tech',      ax:0.45, ay:0.38 },
+      { abbr:'OPS', label:'DevOps',        cat:'tech',      ax:0.62, ay:0.50 },
+      { abbr:'SEC', label:'Security',      cat:'tech',      ax:0.35, ay:0.82 },
+      // Community nodes (muted)
+      { abbr:'ENT', label:'Enterprise',    cat:'community', ax:0.08, ay:0.44 },
+      { abbr:'FND', label:'Founders',      cat:'community', ax:0.89, ay:0.66 },
+      { abbr:'COM', label:'Community',     cat:'community', ax:0.70, ay:0.87 },
+    ];
+
+    // Edges: [from-index, to-index] — meaningful platform relationships
+    var EDGES = [
+      [0,1],[0,2],[1,2],          // platform triangle
+      [4,0],[4,1],[5,1],[5,0],    // AI, Infra feed Intel & Labs
+      [6,1],[6,9],                // Cloud → Labs, DevOps
+      [8,0],[8,2],[8,9],          // Data → Intel, Ventures, DevOps
+      [7,0],[9,0],                // Code, DevOps → Intel
+      [10,0],[10,9],              // Security → Intel, DevOps
+      [11,0],[12,2],[13,0],[3,0], // Enterprise, Founders, Community, Newsletter
+      [4,8],[5,6],[7,9],          // Tech interconnections
+    ];
+
+    var nodes;
 
     function resize() {
       var rect = canvas.parentElement.getBoundingClientRect();
-      canvas.width  = rect.width  * DPR;
-      canvas.height = rect.height * DPR;
-      canvas.style.width  = rect.width  + 'px';
-      canvas.style.height = rect.height + 'px';
-      ctx.scale(DPR, DPR);
-      var w = rect.width, h = rect.height;
-      nodes = [];
-      for (var i = 0; i < COUNT; i++) {
-        nodes.push({
-          x:  Math.random() * w,
-          y:  Math.random() * h,
-          vx: (Math.random() - 0.5) * 0.28,
-          vy: (Math.random() - 0.5) * 0.28,
-          r:  Math.random() * 1.4 + 0.5
-        });
-      }
+      W = rect.width; H = rect.height;
+      canvas.width  = W * DPR;
+      canvas.height = H * DPR;
+      canvas.style.width  = W + 'px';
+      canvas.style.height = H + 'px';
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      nodes = DEFS.map(function (d, i) {
+        return { def:d, bx:d.ax*W, by:d.ay*H, phase:i*0.618, x:0, y:0 };
+      });
     }
 
-    function getColors() {
-      var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    function palette() {
+      var dk = document.documentElement.getAttribute('data-theme') === 'dark';
       return {
-        node: dark ? 'rgba(122,154,181,0.28)' : 'rgba(95,118,140,0.18)',
-        lineBase: dark ? 'rgba(122,154,181,' : 'rgba(95,118,140,'
+        dk:  dk,
+        am:  dk ? 'rgba(212,168,64,'  : 'rgba(186,146,55,',
+        sl:  dk ? 'rgba(122,154,181,' : 'rgba(82,105,128,',
+        mu:  dk ? 'rgba(140,140,140,' : 'rgba(105,105,105,',
+        lbl: dk ? 'rgba(190,190,190,' : 'rgba(75,75,75,',
       };
     }
 
-    function draw() {
-      var w = canvas.width  / DPR;
-      var h = canvas.height / DPR;
-      ctx.clearRect(0, 0, w, h);
-      var c = getColors();
+    // One pulse per edge, staggered start positions
+    var pulses = EDGES.map(function (e, i) {
+      return { ei:i, t:(i/EDGES.length), spd:0.0013 + (i % 5) * 0.00015 };
+    });
 
+    function draw() {
+      tick += 0.016;
+      ctx.clearRect(0, 0, W, H);
+      var c = palette();
+
+      // Update node positions — gentle sine-wave bobbing
       for (var i = 0; i < nodes.length; i++) {
         var n = nodes[i];
-        n.x += n.vx;  n.y += n.vy;
-        if (n.x < 0 || n.x > w) n.vx *= -1;
-        if (n.y < 0 || n.y > h) n.vy *= -1;
+        n.x = n.bx + Math.cos(tick * 0.28 + n.phase * 1.3) * 3.5;
+        n.y = n.by + Math.sin(tick * 0.38 + n.phase)       * 5.0;
       }
 
-      ctx.lineWidth = 0.7;
-      for (var i = 0; i < nodes.length; i++) {
-        for (var j = i + 1; j < nodes.length; j++) {
-          var dx = nodes[i].x - nodes[j].x;
-          var dy = nodes[i].y - nodes[j].y;
-          var d  = Math.sqrt(dx * dx + dy * dy);
-          if (d < MAX_DIST) {
-            ctx.beginPath();
-            ctx.moveTo(nodes[i].x, nodes[i].y);
-            ctx.lineTo(nodes[j].x, nodes[j].y);
-            ctx.strokeStyle = c.lineBase + ((1 - d / MAX_DIST) * 0.14) + ')';
-            ctx.stroke();
-          }
+      // Draw edges
+      ctx.lineWidth = 0.6;
+      for (var i = 0; i < EDGES.length; i++) {
+        var a = nodes[EDGES[i][0]], b = nodes[EDGES[i][1]];
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+        ctx.strokeStyle = c.sl + (c.dk ? '0.13)' : '0.11)');
+        ctx.stroke();
+      }
+
+      // Draw amber pulse dots travelling along edges
+      for (var i = 0; i < pulses.length; i++) {
+        var p = pulses[i];
+        p.t = (p.t + p.spd) % 1;
+        var a = nodes[EDGES[p.ei][0]], b = nodes[EDGES[p.ei][1]];
+        for (var tr = 0; tr < 4; tr++) {
+          var tp = p.t - tr * 0.045;
+          if (tp < 0) tp += 1;
+          var px = a.x + (b.x - a.x) * tp;
+          var py = a.y + (b.y - a.y) * tp;
+          var alpha = (1 - tr * 0.22) * (c.dk ? 0.62 : 0.55);
+          ctx.beginPath();
+          ctx.arc(px, py, Math.max(0.1, 1.4 - tr * 0.28), 0, Math.PI * 2);
+          ctx.fillStyle = c.am + alpha + ')';
+          ctx.fill();
         }
       }
 
+      // Draw nodes
       for (var i = 0; i < nodes.length; i++) {
+        var n = nodes[i];
+        var d = n.def;
+        var isPlat = d.cat === 'platform';
+        var isTech = d.cat === 'tech';
+        var r   = isPlat ? 16 : (isTech ? 11 : 9);
+        var col = isPlat ? c.am : (isTech ? c.sl : c.mu);
+
+        // Soft radial glow behind platform nodes
+        if (isPlat) {
+          var gr = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, r * 2.8);
+          gr.addColorStop(0, c.am + (c.dk ? '0.14)' : '0.11)'));
+          gr.addColorStop(1, c.am + '0)');
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, r * 2.8, 0, Math.PI * 2);
+          ctx.fillStyle = gr;
+          ctx.fill();
+        }
+
+        // Node body
         ctx.beginPath();
-        ctx.arc(nodes[i].x, nodes[i].y, nodes[i].r, 0, Math.PI * 2);
-        ctx.fillStyle = c.node;
+        ctx.arc(n.x, n.y, r, 0, Math.PI * 2);
+        ctx.fillStyle   = col + (isPlat ? (c.dk?'0.18)':'0.13)') : (c.dk?'0.11)':'0.08)'));
         ctx.fill();
+        ctx.lineWidth   = isPlat ? 1.0 : 0.7;
+        ctx.strokeStyle = col + (isPlat ? (c.dk?'0.60)':'0.52)') : (c.dk?'0.35)':'0.28)'));
+        ctx.stroke();
+
+        // Abbreviation label inside node
+        ctx.font         = (isPlat?'600 ':'500 ') + (isPlat?'7.5':'6.5') + 'px -apple-system,BlinkMacSystemFont,sans-serif';
+        ctx.textAlign    = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle    = col + (isPlat ? (c.dk?'0.85)':'0.75)') : (c.dk?'0.65)':'0.55)'));
+        ctx.fillText(d.abbr, n.x, n.y);
+
+        // Node name below
+        ctx.font         = '9px -apple-system,BlinkMacSystemFont,sans-serif';
+        ctx.textBaseline = 'top';
+        ctx.fillStyle    = c.lbl + (isPlat ? (c.dk?'0.68)':'0.58)') : (c.dk?'0.42)':'0.34)'));
+        ctx.fillText(d.label, n.x, n.y + r + 3);
       }
 
       raf = requestAnimationFrame(draw);
@@ -242,7 +323,7 @@
     window.addEventListener('resize', function () {
       cancelAnimationFrame(raf);
       clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(function () { resize(); draw(); }, 120);
+      resizeTimer = setTimeout(function () { ctx.setTransform(1,0,0,1,0,0); resize(); draw(); }, 120);
     });
 
     resize();
