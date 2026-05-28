@@ -722,6 +722,7 @@ p  { color: var(--color-text-muted); }
   .featured-post-body { padding: 24px 22px; }
   .nav-links { display: none; }
   .nav-hamburger { display: flex; }
+  .nav-right .btn-subscribe { display: none; }
   .footer-grid { grid-template-columns: 1fr; }
   .founder-block { flex-direction: column; }
   .lab-table { font-size: 13px; }
