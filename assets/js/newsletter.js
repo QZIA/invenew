@@ -52,6 +52,12 @@
       var date     = esc(formatDate(post.publish_date || post.displayed_date || post.created));
       var idx      = start + i;
 
+      var thumb = post.thumbnail_url || '';
+      var thumbHtml = thumb
+        ? '<div class="issue-thumb"><img src="' + esc(thumb) + '" alt="" ' +
+            'width="88" height="60" loading="lazy" decoding="async"></div>'
+        : '<div class="issue-thumb issue-thumb--empty"></div>';
+
       html +=
         '<li class="issue-item" data-idx="' + idx + '" role="button" tabindex="0" ' +
             'aria-label="Read: ' + title + '">' +
@@ -60,6 +66,7 @@
             (subtitle ? '<div class="issue-subtitle">' + subtitle + '</div>' : '') +
             (date     ? '<div class="issue-date">'     + date     + '</div>' : '') +
           '</div>' +
+          thumbHtml +
           '<span class="issue-cta">Read &rarr;</span>' +
         '</li>';
     });
