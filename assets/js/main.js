@@ -158,6 +158,97 @@
     });
   }
 
+  /* ── Hero canvas: animated particle network ── */
+  function initHeroCanvas() {
+    var canvas = document.getElementById('hero-canvas');
+    if (!canvas) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var ctx = canvas.getContext('2d');
+    var COUNT = 58;
+    var MAX_DIST = 155;
+    var DPR = Math.min(window.devicePixelRatio || 1, 2);
+    var nodes = [];
+    var raf;
+
+    function resize() {
+      var rect = canvas.parentElement.getBoundingClientRect();
+      canvas.width  = rect.width  * DPR;
+      canvas.height = rect.height * DPR;
+      canvas.style.width  = rect.width  + 'px';
+      canvas.style.height = rect.height + 'px';
+      ctx.scale(DPR, DPR);
+      var w = rect.width, h = rect.height;
+      nodes = [];
+      for (var i = 0; i < COUNT; i++) {
+        nodes.push({
+          x:  Math.random() * w,
+          y:  Math.random() * h,
+          vx: (Math.random() - 0.5) * 0.28,
+          vy: (Math.random() - 0.5) * 0.28,
+          r:  Math.random() * 1.4 + 0.5
+        });
+      }
+    }
+
+    function getColors() {
+      var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+      return {
+        node: dark ? 'rgba(122,154,181,0.28)' : 'rgba(95,118,140,0.18)',
+        lineBase: dark ? 'rgba(122,154,181,' : 'rgba(95,118,140,'
+      };
+    }
+
+    function draw() {
+      var w = canvas.width  / DPR;
+      var h = canvas.height / DPR;
+      ctx.clearRect(0, 0, w, h);
+      var c = getColors();
+
+      for (var i = 0; i < nodes.length; i++) {
+        var n = nodes[i];
+        n.x += n.vx;  n.y += n.vy;
+        if (n.x < 0 || n.x > w) n.vx *= -1;
+        if (n.y < 0 || n.y > h) n.vy *= -1;
+      }
+
+      ctx.lineWidth = 0.7;
+      for (var i = 0; i < nodes.length; i++) {
+        for (var j = i + 1; j < nodes.length; j++) {
+          var dx = nodes[i].x - nodes[j].x;
+          var dy = nodes[i].y - nodes[j].y;
+          var d  = Math.sqrt(dx * dx + dy * dy);
+          if (d < MAX_DIST) {
+            ctx.beginPath();
+            ctx.moveTo(nodes[i].x, nodes[i].y);
+            ctx.lineTo(nodes[j].x, nodes[j].y);
+            ctx.strokeStyle = c.lineBase + ((1 - d / MAX_DIST) * 0.14) + ')';
+            ctx.stroke();
+          }
+        }
+      }
+
+      for (var i = 0; i < nodes.length; i++) {
+        ctx.beginPath();
+        ctx.arc(nodes[i].x, nodes[i].y, nodes[i].r, 0, Math.PI * 2);
+        ctx.fillStyle = c.node;
+        ctx.fill();
+      }
+
+      raf = requestAnimationFrame(draw);
+    }
+
+    var resizeTimer;
+    window.addEventListener('resize', function () {
+      cancelAnimationFrame(raf);
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function () { resize(); draw(); }, 120);
+    });
+
+    resize();
+    draw();
+  }
+
   /* ── Init ── */
   document.addEventListener('DOMContentLoaded', function () {
     // Re-apply theme to sync the icon (nav is now in HTML so the button exists)
@@ -179,6 +270,7 @@
       }
     });
 
+    initHeroCanvas();
     initMobileNav();
     setActiveNav();
     initNewsletterForms();
