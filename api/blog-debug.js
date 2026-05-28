@@ -4,7 +4,7 @@ export default async function handler(req, res) {
   const dataset   = process.env.SANITY_DATASET || 'production';
 
   const query = encodeURIComponent(
-    'array::unique(*[]._type)'
+    '*[_type == "post"][0..4]'
   );
 
   const url = `https://${projectId}.api.sanity.io/v2024-01-01/data/query/${dataset}?query=${query}`;
