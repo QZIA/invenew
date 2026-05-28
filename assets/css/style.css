@@ -383,11 +383,13 @@ p  { color: var(--color-text-muted); }
 /* ── Newsletter Strip ── */
 .nl-strip {
   background: var(--color-slate);
-  padding: 60px 0;
-  text-align: center;
+  padding: 44px 0;
 }
-.nl-strip h2 { color: #ffffff; margin-bottom: 8px; }
-.nl-strip p  { color: rgba(255,255,255,0.75); margin-bottom: 28px; }
+.nl-strip .container { display: flex; align-items: center; gap: 52px; }
+.nl-strip-text { flex: 1; min-width: 0; }
+.nl-strip-text h2 { color: #ffffff; margin-bottom: 6px; }
+.nl-strip-text p  { color: rgba(255,255,255,0.75); margin: 0; }
+.nl-strip-form { width: 440px; flex-shrink: 0; }
 .nl-form { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
 .nl-form input {
   font-size: 14px;
@@ -711,6 +713,8 @@ p  { color: var(--color-text-muted); }
 @media (max-width: 680px) {
   .container { padding: 0 20px; }
   .section { padding: 52px 0; }
+  .nl-strip .container { flex-direction: column; gap: 24px; text-align: center; }
+  .nl-strip-form { width: 100%; }
   .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; }
   .blog-grid { grid-template-columns: 1fr; }
   .featured-post { grid-template-columns: 1fr; min-height: auto; }
