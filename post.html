@@ -331,7 +331,7 @@
     if (post.title) {
       document.title = esc(post.title) + ' | INVENEW';
       var metaDesc = document.querySelector('meta[name="description"]');
-      if (metaDesc) metaDesc.setAttribute('content', esc(post.title) + ' — INVENEW Intelligence');
+      if (metaDesc) metaDesc.setAttribute('content', esc(post.title) + ', INVENEW Intelligence');
     }
 
     var heroImg = post.imageUrl
@@ -468,14 +468,14 @@
 
     // Ordered list of known high-quality voices across platforms
     var VOICE_PRIORITY = [
-      // Edge / Chrome on Windows — Microsoft Neural (best free voices on Windows)
+      // Edge / Chrome on Windows, Microsoft Neural (best free voices on Windows)
       'Microsoft Aria Online (Natural) - English (United States)',
       'Microsoft Jenny Online (Natural) - English (United States)',
       'Microsoft Guy Online (Natural) - English (United States)',
       'Microsoft Aria',
       'Microsoft Jenny',
       'Microsoft Zira',
-      // Chrome on any platform — Google Neural
+      // Chrome on any platform, Google Neural
       'Google UK English Female',
       'Google US English',
       'Google UK English Male',
