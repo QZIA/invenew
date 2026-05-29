@@ -1,0 +1,32 @@
+name: Push articles to Sanity
+
+# Runs automatically whenever a JSON file is added or changed
+# inside sanity-import/articles/ on the main branch.
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'sanity-import/articles/**.json'
+
+jobs:
+  push-articles:
+    name: Push new articles to Sanity CMS
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Push articles to Sanity
+        env:
+          SANITY_PROJECT_ID: ${{ secrets.SANITY_PROJECT_ID }}
+          SANITY_DATASET:    ${{ secrets.SANITY_DATASET }}
+          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
+        run: node sanity-import/push-article.mjs
