@@ -260,7 +260,8 @@ if (!listResp.ok) {
 }
 
 const entries = await listResp.json();
-const folders = entries.filter(e => e.type === 'dir').map(e => e.name);
+// Skip helper/template folders (anything starting with _ or .)
+const folders = entries.filter(e => e.type === 'dir' && !/^[_.]/.test(e.name)).map(e => e.name);
 console.log(`Found ${folders.length} newsletter folder(s).\n`);
 
 if (folders.length === 0) {
