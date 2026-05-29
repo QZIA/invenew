@@ -834,7 +834,9 @@ p  { color: var(--color-text-muted); }
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
   .sponsor-options { grid-template-columns: 1fr; }
   .hero-split { grid-template-columns: 1fr; gap: 40px; }
-  .hero-video-wrap { max-width: 480px; }
+  .hero-card-wrap { margin-right: 0; overflow: hidden; }
+  .hero-video-wrap { max-width: 100%; overflow: hidden; }
+  #ai-stack-canvas { max-width: 100%; }
   .hero h1 { font-size: clamp(30px, 7vw, 48px); }
   .hero-stats { flex-wrap: wrap; justify-content: flex-start; }
   .hero-stat { border-right: none; border-bottom: 0.5px solid var(--color-hero-border); padding: 14px 0; margin-right: 0; width: 50%; }
