@@ -184,14 +184,46 @@ async function fetchExistingTitles() {
 
 // ── Push a single newsletter ──────────────────────────────────────────────────
 
+/** Normalise either newsletter.json or legacy payload.json into a common shape */
+function normalisePayload(raw) {
+  // New format: newsletter.json (rich schema)
+  if (raw.email_settings || raw.web_settings || raw.seo_settings) {
+    return {
+      title:        raw.title,
+      subtitle:     raw.subtitle,
+      previewText:  raw.email_settings?.email_preview_text || raw.subtitle,
+      authors:      raw.byline ? [raw.byline] : DEFAULTS.authors,
+      tags:         raw.content_tags || [],
+      thumbnailUrl: raw.web_settings?.thumbnail_url || '',
+      ctaUrl:       raw.primary_cta?.url || DEFAULTS.ctaUrl,
+      slug:         raw.slug || undefined,
+      metaTitle:    raw.seo_settings?.default_title || raw.title,
+      metaDesc:     raw.seo_settings?.default_description || raw.subtitle,
+    };
+  }
+  // Legacy format: payload.json
+  return {
+    title:        raw.title,
+    subtitle:     raw.subtitle,
+    previewText:  raw.previewText || raw.subtitle,
+    authors:      raw.authors || DEFAULTS.authors,
+    tags:         raw.tags || [],
+    thumbnailUrl: raw.thumbnailUrl || '',
+    ctaUrl:       raw.ctaUrl || DEFAULTS.ctaUrl,
+  };
+}
+
 async function pushNewsletter(folder, existingTitles) {
-  // Fetch payload.json
-  const payloadResp = await fetch(`${GITHUB_RAW}${folder}/payload.json`);
-  if (!payloadResp.ok) {
-    console.log(`  ⚠️  No payload.json in ${folder} — skipping`);
+  // Accept newsletter.json (new) or payload.json (legacy)
+  let payload = null;
+  for (const fname of ['newsletter.json', 'payload.json']) {
+    const r = await fetch(`${GITHUB_RAW}${folder}/${fname}`);
+    if (r.ok) { payload = normalisePayload(await r.json()); break; }
+  }
+  if (!payload) {
+    console.log(`  ⚠️  No newsletter.json or payload.json in ${folder} — skipping`);
     return false;
   }
-  const payload = await payloadResp.json();
 
   // Fetch body.md
   const bodyResp = await fetch(`${GITHUB_RAW}${folder}/body.md`);
@@ -208,19 +240,20 @@ async function pushNewsletter(folder, existingTitles) {
   }
 
   // Convert markdown → HTML
-  const bodyHtml = wrapWithCta(mdToHtml(bodyMd), payload.ctaUrl || DEFAULTS.ctaUrl);
+  const bodyHtml = wrapWithCta(mdToHtml(bodyMd), payload.ctaUrl);
 
   // Build the Beehiiv post payload
   const post = {
     title:         payload.title,
     subtitle:      payload.subtitle      || undefined,
-    preview_text:  payload.previewText   || payload.subtitle || undefined,
-    authors:       payload.authors       || DEFAULTS.authors,
-    status:        DEFAULTS.status,                // always 'draft'
+    preview_text:  payload.previewText   || undefined,
+    authors:       payload.authors,
+    status:        DEFAULTS.status,
     email_enabled: DEFAULTS.emailEnabled,
     web_enabled:   DEFAULTS.webEnabled,
-    content_tags:  payload.tags          || [],
+    content_tags:  payload.tags,
     thumbnail_url: payload.thumbnailUrl  || undefined,
+    slug:          payload.slug          || undefined,
     content: {
       free: {
         web:   bodyHtml,
@@ -229,8 +262,8 @@ async function pushNewsletter(folder, existingTitles) {
     },
   };
 
-  // Remove undefined fields
-  Object.keys(post).forEach(k => post[k] === undefined && delete post[k]);
+  // Remove undefined / empty fields
+  Object.keys(post).forEach(k => (post[k] === undefined || post[k] === '') && delete post[k]);
 
   const result = await beehiivPost(
     `/publications/${BEEHIIV_PUBLICATION_ID}/posts`,
