@@ -1,0 +1,9 @@
+{
+  "title": "INVENEW Weekly — Issue #00: Your Title Here",
+  "subtitle": "One-line subtitle shown below the title in email",
+  "previewText": "Preview text shown in email clients before opening (keep under 90 chars)",
+  "authors": ["Qamar Zia"],
+  "tags": [],
+  "thumbnailUrl": "",
+  "ctaUrl": "https://invenew.com/sponsors"
+}

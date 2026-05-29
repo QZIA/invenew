@@ -1,0 +1,32 @@
+name: Push newsletters to Beehiiv
+
+# Runs automatically whenever a file is added or changed
+# inside beehiiv/newsletters/ on the main branch.
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'beehiiv/newsletters/**/payload.json'
+      - 'beehiiv/newsletters/**/body.md'
+
+jobs:
+  push-newsletters:
+    name: Push new newsletter drafts to Beehiiv
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Push newsletters to Beehiiv
+        env:
+          BEEHIIV_API_KEY:        ${{ secrets.BEEHIIV_API_KEY }}
+          BEEHIIV_PUBLICATION_ID: ${{ secrets.BEEHIIV_PUBLICATION_ID }}
+        run: node beehiiv/push-newsletter.mjs
