@@ -645,13 +645,18 @@
       var srcX = (pos[0].x + pos[2].x) / 2 + W * 0.04;
       var srcY = (pos[0].y + pos[2].y) / 2 - H * 0.07;
       var hexC = pos[6];
-      var beamW = 58;
 
-      // Cone fill — orangish yellow
+      // Animated pulse: slow breathe + faster flicker layered together
+      var breathe = 0.50 + 0.50 * Math.sin(tick * 0.55);
+      var flicker = 0.92 + 0.08 * Math.sin(tick * 4.80 + 1.2);
+      var bp      = breathe * flicker;
+      var beamW   = 50 + bp * 16;
+
+      // Cone fill — animated orangish yellow
       var oy = [255, 178, 48];
       var beamGrd = ctx.createLinearGradient(srcX, srcY, hexC.x, hexC.y);
-      beamGrd.addColorStop(0,    rc(oy, c.dk ? 0.38 : 0.28));
-      beamGrd.addColorStop(0.65, rc(oy, c.dk ? 0.16 : 0.11));
+      beamGrd.addColorStop(0,    rc(oy, (c.dk ? 0.42 : 0.32) * bp));
+      beamGrd.addColorStop(0.60, rc(oy, (c.dk ? 0.18 : 0.13) * bp));
       beamGrd.addColorStop(1,    rc(oy, 0));
       ctx.beginPath();
       ctx.moveTo(srcX, srcY);
@@ -661,19 +666,21 @@
       ctx.fillStyle = beamGrd;
       ctx.fill();
 
-      // Source dot
-      var dotGrd = ctx.createRadialGradient(srcX, srcY, 0, srcX, srcY, 20);
-      dotGrd.addColorStop(0, rc(c.blu, c.dk ? 0.80 : 0.65));
-      dotGrd.addColorStop(1, rc(c.blu, 0));
+      // Source dot — pulses with beam
+      var dotR = 16 + bp * 7;
+      var dotGrd = ctx.createRadialGradient(srcX, srcY, 0, srcX, srcY, dotR * 1.6);
+      dotGrd.addColorStop(0,   rc(c.blu, (c.dk ? 0.90 : 0.72) * bp));
+      dotGrd.addColorStop(0.5, rc(c.blu, (c.dk ? 0.40 : 0.30) * bp));
+      dotGrd.addColorStop(1,   rc(c.blu, 0));
       ctx.beginPath();
-      ctx.arc(srcX, srcY, 20, 0, Math.PI*2);
+      ctx.arc(srcX, srcY, dotR * 1.6, 0, Math.PI*2);
       ctx.fillStyle = dotGrd;
       ctx.fill();
 
-      // "INVENEW Intelligence" label
+      // "INVENEW Intelligence" label — fades with pulse
       ctx.save();
       ctx.font = 'bold ' + Math.max(9, Math.round(W * 0.019)) + 'px system-ui,sans-serif';
-      ctx.fillStyle   = rc(c.blu, c.dk ? 0.78 : 0.60);
+      ctx.fillStyle   = rc(c.blu, (c.dk ? 0.80 : 0.62) * (0.7 + 0.3 * bp));
       ctx.textAlign   = 'left';
       ctx.textBaseline = 'middle';
       ctx.fillText('INVENEW Intelligence', srcX + 24, srcY);
