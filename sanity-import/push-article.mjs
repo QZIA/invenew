@@ -12,11 +12,12 @@ import { randomBytes } from 'crypto';
 const SANITY_PROJECT_ID = process.env.SANITY_PROJECT_ID || 'kjneu2g3';
 const SANITY_DATASET    = process.env.SANITY_DATASET    || 'production';
 const SANITY_API_VER    = '2024-01-01';
-const SANITY_TOKEN      = process.env.SANITY_AUTH_TOKEN
-                       || process.env.SANITY_TOKEN
-                       || 'ske0vT0bceO6YnZ9yXODtREYiUcCd484FwT5VV2sZ6IntXtwMv245rM7WvbbLm2E1nMrdlayXoMQfMeXI';
+const SANITY_TOKEN      = process.env.SANITY_AUTH_TOKEN || process.env.SANITY_TOKEN;
 
-if (!SANITY_TOKEN) { console.error('Missing SANITY_AUTH_TOKEN'); process.exit(1); }
+if (!SANITY_TOKEN) {
+  console.error('Missing SANITY_AUTH_TOKEN or SANITY_TOKEN environment variable');
+  process.exit(1);
+}
 
 // Known IDs from Sanity
 const AUTHOR_ID   = '324be14f-136c-4413-877e-27828c5cb245'; // Qamar Zia
