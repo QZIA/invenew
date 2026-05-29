@@ -460,6 +460,71 @@
       bar.setAttribute('aria-hidden', visible ? 'false' : 'true');
     }
 
+    /* ── Voice selection ──────────────────────────────────────
+       Voices load asynchronously in Chrome; we cache them once
+       available and pick the highest-quality English voice we can find.
+    ───────────────────────────────────────────────────────── */
+    var cachedVoices = [];
+
+    // Ordered list of known high-quality voices across platforms
+    var VOICE_PRIORITY = [
+      // Edge / Chrome on Windows — Microsoft Neural (best free voices on Windows)
+      'Microsoft Aria Online (Natural) - English (United States)',
+      'Microsoft Jenny Online (Natural) - English (United States)',
+      'Microsoft Guy Online (Natural) - English (United States)',
+      'Microsoft Aria',
+      'Microsoft Jenny',
+      'Microsoft Zira',
+      // Chrome on any platform — Google Neural
+      'Google UK English Female',
+      'Google US English',
+      'Google UK English Male',
+      // macOS / iOS Premium / Enhanced (downloaded from Accessibility settings)
+      'Samantha (Premium)',
+      'Ava (Premium)',
+      'Allison (Premium)',
+      'Tom (Premium)',
+      'Susan (Premium)',
+      // macOS / iOS standard built-ins
+      'Samantha',
+      'Alex',
+      'Karen',
+      'Daniel',
+      'Moira',
+    ];
+
+    function pickVoice(voices) {
+      // 1. Try exact name match from priority list
+      for (var p = 0; p < VOICE_PRIORITY.length; p++) {
+        for (var v = 0; v < voices.length; v++) {
+          if (voices[v].name === VOICE_PRIORITY[p]) return voices[v];
+        }
+      }
+      // 2. Any voice whose name contains quality keywords
+      var neural = voices.filter(function(v) {
+        return /^en/i.test(v.lang) &&
+               /(natural|neural|enhanced|premium|online)/i.test(v.name);
+      });
+      if (neural.length) {
+        // Prefer female voices for slightly higher intelligibility scores
+        return neural.find(function(v) { return /female|aria|jenny|ava|samantha|karen/i.test(v.name); })
+               || neural[0];
+      }
+      // 3. Any en-US voice
+      return voices.find(function(v) { return /en[-_]US/i.test(v.lang); })
+          || voices.find(function(v) { return /^en/i.test(v.lang); })
+          || null;
+    }
+
+    function loadVoices() {
+      var v = window.speechSynthesis.getVoices();
+      if (v.length) cachedVoices = v;
+    }
+    loadVoices(); // already available on Safari / Firefox
+    if (typeof window.speechSynthesis.onvoiceschanged !== 'undefined') {
+      window.speechSynthesis.onvoiceschanged = loadVoices; // async load on Chrome
+    }
+
     function speak(fromChar) {
       window.speechSynthesis.cancel();
       if (!fullText) fullText = getArticleText();
@@ -471,12 +536,10 @@
       utterance.pitch = 1;
       utterance.lang  = 'en-US';
 
-      // Prefer a natural/enhanced English voice when available
-      var voices = window.speechSynthesis.getVoices();
-      var voice = voices.find(function(v) {
-        return /en[-_](US|GB)/i.test(v.lang) && /natural|enhanced|premium|google/i.test(v.name);
-      }) || voices.find(function(v) { return /en[-_]US/i.test(v.lang); });
-      if (voice) utterance.voice = voice;
+      // Re-fetch voices in case they loaded after page open
+      if (!cachedVoices.length) loadVoices();
+      var best = pickVoice(cachedVoices);
+      if (best) utterance.voice = best;
 
       if (barLabel) barLabel.textContent = title;
 
@@ -506,11 +569,6 @@
       };
 
       window.speechSynthesis.speak(utterance);
-    }
-
-    /* Voices may load async on Chrome */
-    if (window.speechSynthesis.onvoiceschanged !== undefined) {
-      window.speechSynthesis.onvoiceschanged = function() { /* voices ready */ };
     }
 
     listenBtn.addEventListener('click', function() {
