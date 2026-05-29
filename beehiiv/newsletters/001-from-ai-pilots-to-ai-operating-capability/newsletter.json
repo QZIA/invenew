@@ -1,0 +1,78 @@
+{
+  "issue_id": 1,
+  "source": {
+    "calendar": "INVENEW_Intelligence_Newsletter_Content_Calendar.xlsx",
+    "sheet": "Newsletter Calendar",
+    "row": 2
+  },
+  "beehiiv": {
+    "status": "draft",
+    "audience": "both",
+    "publication_id_secret": "BEEHIIV_PUBLICATION_ID",
+    "api_key_secret": "BEEHIIV_API_KEY"
+  },
+  "title": "INVENEW Intelligence #1: From AI Pilots to AI Operating Capability",
+  "subtitle": "A weekly briefing on cross-category AI intelligence: strategy, architecture, ventures, and operating models.",
+  "slug": "from-ai-pilots-to-ai-operating-capability",
+  "send_date": "2026-06-04",
+  "newsletter_type": "Weekly Intelligence Brief",
+  "category_focus": [
+    "AI Strategy",
+    "Agentic Enterprise",
+    "AI Architecture"
+  ],
+  "editorial_theme": "Cross-category AI intelligence: strategy, architecture, ventures, and operating models",
+  "lead_story": "The Executive Guide to Moving from AI Pilots to AI Operating Capability",
+  "secondary_stories": [
+    "The Agentic Enterprise: From Individual Copilots to Workflow-Orchestrating Agents",
+    "The AI-Native Application Stack: What Belongs in the Modern Enterprise Architecture"
+  ],
+  "email_settings": {
+    "email_subject_line": "INVENEW Intelligence #1: from AI pilots to operating capability",
+    "email_subject_line_alt": "This week in AI: AI Strategy, Agentic Enterprise, and AI Architecture",
+    "email_preview_text": "A weekly briefing on cross-category AI intelligence: strategy, architecture, ventures, and operating models — built for executives, builders, investors, and strategic buyers.",
+    "display_title_in_email": true,
+    "display_subtitle_in_email": true,
+    "display_byline_in_email": true
+  },
+  "web_settings": {
+    "hide_from_feed": false,
+    "display_thumbnail_on_web": true,
+    "thumbnail_url": "",
+    "thumbnail_alt_text": "Abstract AI operating capability network with strategy, architecture, governance, and workflow layers"
+  },
+  "seo_settings": {
+    "default_title": "INVENEW Intelligence #1: From AI Pilots to AI Operating Capability",
+    "default_description": "A strategic briefing on moving from AI pilots to enterprise AI operating capability, agentic workflows, and the AI-native application stack.",
+    "og_title": "From AI Pilots to AI Operating Capability",
+    "og_description": "This week’s INVENEW Intelligence brief covers AI strategy, agentic enterprise workflows, and AI-native architecture.",
+    "twitter_title": "From AI Pilots to AI Operating Capability",
+    "twitter_description": "AI adoption is moving from pilots to operating capability. Here’s what leaders need to know."
+  },
+  "byline": "INVENEW Intelligence",
+  "primary_audience": "Executives, AI leaders, venture builders, investors, strategic buyers",
+  "funnel_stage": "Awareness / Consideration",
+  "primary_cta": {
+    "label": "Sponsor INVENEW Intelligence",
+    "url": "https://invenew.com/sponsors"
+  },
+  "content_tags": [
+    "AI Strategy",
+    "Agentic Enterprise",
+    "AI Architecture",
+    "Enterprise AI",
+    "AI Operating Model",
+    "INVENEW Intelligence"
+  ],
+  "target_asset": "Framework / briefing note / market map",
+  "priority": "Launch",
+  "production_status": "draft",
+  "owner": "INVENEW Intelligence",
+  "research_source_signal": "Enterprise AI adoption gap and pressure to move beyond pilots; rising interest in production-grade agents and workflow orchestration",
+  "source_blog_ids": [
+    1,
+    2,
+    3
+  ],
+  "body_markdown_file": "body.md"
+}
