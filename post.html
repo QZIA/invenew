@@ -57,6 +57,150 @@
     .post-back svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2;
                      fill: none; stroke-linecap: round; stroke-linejoin: round; }
 
+    /* ── Text-to-Speech ── */
+    .post-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 18px;
+    }
+    .tts-listen-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      color: var(--color-text-muted);
+      background: transparent;
+      border: 1px solid var(--color-border-med);
+      border-radius: var(--radius-pill);
+      padding: 5px 13px 5px 9px;
+      cursor: pointer;
+      transition: color var(--transition), border-color var(--transition), background var(--transition);
+      line-height: 1;
+    }
+    .tts-listen-btn svg {
+      width: 14px; height: 14px;
+      flex-shrink: 0;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .tts-listen-btn:hover {
+      color: var(--color-text);
+      border-color: var(--color-text-muted);
+    }
+    .tts-listen-btn.playing {
+      color: var(--color-amber);
+      border-color: var(--color-amber);
+      background: rgba(194,153,60,0.07);
+    }
+    [data-theme="dark"] .tts-listen-btn.playing {
+      background: rgba(212,168,64,0.10);
+    }
+    .tts-listen-btn.paused {
+      color: var(--color-text-muted);
+      border-color: var(--color-border-med);
+    }
+    /* TTS sticky bar */
+    .tts-bar {
+      position: fixed;
+      bottom: -80px;
+      left: 0; right: 0;
+      height: 60px;
+      background: var(--color-bg);
+      border-top: 1px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 0 20px;
+      z-index: 300;
+      transition: bottom 0.32s cubic-bezier(0.4,0,0.2,1);
+      box-shadow: 0 -6px 28px rgba(0,0,0,0.08);
+    }
+    .tts-bar.visible { bottom: 0; }
+    .tts-bar-play {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      border: none;
+      background: var(--color-amber);
+      color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: opacity var(--transition), transform var(--transition);
+    }
+    .tts-bar-play:hover { opacity: 0.82; transform: scale(1.06); }
+    .tts-bar-play svg {
+      width: 13px; height: 13px;
+      fill: currentColor;
+      stroke: none;
+    }
+    .tts-bar-info { flex: 1; min-width: 0; }
+    .tts-bar-label {
+      font-size: 11px;
+      color: var(--color-text-faint);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 5px;
+    }
+    .tts-track {
+      height: 3px;
+      background: var(--color-border);
+      border-radius: 2px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .tts-track-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--color-amber);
+      border-radius: 2px;
+      transition: width 0.4s linear;
+    }
+    .tts-speed-btn {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      background: var(--color-bg-secondary);
+      border: none;
+      border-radius: var(--radius-pill);
+      padding: 4px 10px;
+      cursor: pointer;
+      flex-shrink: 0;
+      letter-spacing: 0.03em;
+      min-width: 36px;
+      text-align: center;
+      transition: color var(--transition), background var(--transition);
+    }
+    .tts-speed-btn:hover { color: var(--color-text); }
+    .tts-bar-close {
+      width: 28px; height: 28px;
+      border: none;
+      background: transparent;
+      color: var(--color-text-faint);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: color var(--transition), background var(--transition);
+    }
+    .tts-bar-close:hover {
+      color: var(--color-text);
+      background: var(--color-bg-secondary);
+    }
+    .tts-bar-close svg {
+      width: 14px; height: 14px;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      fill: none;
+    }
+
     /* ── Loading / error states ── */
     .post-loading { display: flex; flex-direction: column; align-items: center;
                     padding: 80px 0; gap: 16px; color: var(--color-text-faint); font-size: 14px; }
@@ -131,6 +275,21 @@
   </div>
 </section>
 
+<!-- ── Text-to-Speech player bar ── -->
+<div class="tts-bar" id="tts-bar" role="region" aria-label="Article audio player" aria-hidden="true">
+  <button class="tts-bar-play" id="tts-play-pause" aria-label="Play article">
+    <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+  </button>
+  <div class="tts-bar-info">
+    <div class="tts-bar-label" id="tts-bar-label">Article</div>
+    <div class="tts-track"><div class="tts-track-fill" id="tts-track-fill"></div></div>
+  </div>
+  <button class="tts-speed-btn" id="tts-speed-btn" aria-label="Playback speed: 1×">1×</button>
+  <button class="tts-bar-close" id="tts-close" aria-label="Stop reading">
+    <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+</div>
+
 <div id="site-footer"></div>
 
 <script>
@@ -185,10 +344,22 @@
     if (date)   metaParts.push('<time>' + esc(date) + '</time>');
     if (author) metaParts.push('<span class="post-author">By ' + esc(author) + '</span>');
 
+    var ttsBtn = window.speechSynthesis
+      ? '<div class="post-toolbar">' +
+          '<button class="tts-listen-btn" id="tts-listen-btn" aria-label="Listen to article">' +
+            '<svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>' +
+            '<path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>' +
+            '<path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>' +
+            '<span>Listen</span>' +
+          '</button>' +
+        '</div>'
+      : '';
+
     document.getElementById('post-content').innerHTML =
       '<div class="post-header">' +
         (metaParts.length ? '<div class="post-meta">' + metaParts.join('') + '</div>' : '') +
         '<h1>' + esc(post.title || 'Untitled') + '</h1>' +
+        ttsBtn +
       '</div>' +
       heroImg +
       '<div class="post-body">' + (post.bodyHtml || '<p>No content available.</p>') + '</div>';
@@ -207,6 +378,7 @@
       .then(function (data) {
         if (!data.result) throw new Error('not_found');
         render(data.result);
+        initTTS(data.result.title || '');
       })
       .catch(function (err) {
         if (err.message === 'not_found') {
@@ -216,6 +388,165 @@
         }
         console.error('[INVENEW] post load error:', err);
       });
+  }
+
+  /* ── Text-to-Speech ─────────────────────────────────────── */
+  function initTTS(title) {
+    if (!window.speechSynthesis) return;
+
+    var listenBtn  = document.getElementById('tts-listen-btn');
+    var bar        = document.getElementById('tts-bar');
+    var playPause  = document.getElementById('tts-play-pause');
+    var closeBtn   = document.getElementById('tts-close');
+    var speedBtn   = document.getElementById('tts-speed-btn');
+    var fill       = document.getElementById('tts-track-fill');
+    var barLabel   = document.getElementById('tts-bar-label');
+
+    if (!listenBtn || !bar) return;
+
+    var state     = 'idle';   // 'idle' | 'playing' | 'paused'
+    var speeds    = [1, 1.25, 1.5, 2];
+    var speedIdx  = 0;
+    var utterance = null;
+    var fullText  = '';
+    var lastChar  = 0;
+
+    /* ── SVG icon snippets ── */
+    var I_LISTEN = '<svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>' +
+                   '<path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>' +
+                   '<path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>';
+    var I_PAUSE  = '<svg viewBox="0 0 24 24" fill="currentColor" stroke="none">' +
+                   '<rect x="6" y="4" width="4" height="16" rx="1"/>' +
+                   '<rect x="14" y="4" width="4" height="16" rx="1"/></svg>';
+    var I_RESUME = '<svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>' +
+                   '<line x1="15" y1="9" x2="20" y2="9"/>' +
+                   '<line x1="15" y1="12" x2="20" y2="12"/>' +
+                   '<line x1="15" y1="15" x2="20" y2="15"/></svg>';
+    var I_PLAY   = '<svg viewBox="0 0 24 24" fill="currentColor" stroke="none">' +
+                   '<polygon points="5 3 19 12 5 21 5 3"/></svg>';
+
+    function getArticleText() {
+      var body = document.querySelector('.post-body');
+      return body ? (body.innerText || body.textContent || '').trim() : '';
+    }
+
+    function updateListenBtn(s) {
+      if (s === 'playing') {
+        listenBtn.className = 'tts-listen-btn playing';
+        listenBtn.setAttribute('aria-label', 'Pause reading');
+        listenBtn.innerHTML = I_PAUSE + '<span>Pause</span>';
+      } else if (s === 'paused') {
+        listenBtn.className = 'tts-listen-btn paused';
+        listenBtn.setAttribute('aria-label', 'Resume reading');
+        listenBtn.innerHTML = I_RESUME + '<span>Resume</span>';
+      } else {
+        listenBtn.className = 'tts-listen-btn';
+        listenBtn.setAttribute('aria-label', 'Listen to article');
+        listenBtn.innerHTML = I_LISTEN + '<span>Listen</span>';
+      }
+    }
+
+    function updateBarBtn(s) {
+      playPause.innerHTML = s === 'playing' ? I_PAUSE : I_PLAY;
+      playPause.setAttribute('aria-label', s === 'playing' ? 'Pause' : 'Play');
+    }
+
+    function setState(s) {
+      state = s;
+      updateListenBtn(s);
+      updateBarBtn(s);
+      var visible = s !== 'idle';
+      bar.classList.toggle('visible', visible);
+      bar.setAttribute('aria-hidden', visible ? 'false' : 'true');
+    }
+
+    function speak(fromChar) {
+      window.speechSynthesis.cancel();
+      if (!fullText) fullText = getArticleText();
+      var text = fromChar > 0 ? fullText.slice(fromChar) : fullText;
+      if (!text.trim()) return;
+
+      utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate  = speeds[speedIdx];
+      utterance.pitch = 1;
+      utterance.lang  = 'en-US';
+
+      // Prefer a natural/enhanced English voice when available
+      var voices = window.speechSynthesis.getVoices();
+      var voice = voices.find(function(v) {
+        return /en[-_](US|GB)/i.test(v.lang) && /natural|enhanced|premium|google/i.test(v.name);
+      }) || voices.find(function(v) { return /en[-_]US/i.test(v.lang); });
+      if (voice) utterance.voice = voice;
+
+      if (barLabel) barLabel.textContent = title;
+
+      utterance.onboundary = function(e) {
+        if (e.name === 'word' && e.charIndex != null) {
+          var abs = fromChar + e.charIndex;
+          lastChar = abs;
+          var pct = Math.min(99, Math.round((abs / fullText.length) * 100));
+          fill.style.width = pct + '%';
+        }
+      };
+
+      utterance.onend = function() {
+        fill.style.width = '100%';
+        setTimeout(function() {
+          setState('idle');
+          fill.style.width = '0%';
+          lastChar = 0;
+        }, 700);
+      };
+
+      utterance.onerror = function(ev) {
+        if (ev.error !== 'interrupted' && ev.error !== 'canceled') {
+          setState('idle');
+          fill.style.width = '0%';
+        }
+      };
+
+      window.speechSynthesis.speak(utterance);
+    }
+
+    /* Voices may load async on Chrome */
+    if (window.speechSynthesis.onvoiceschanged !== undefined) {
+      window.speechSynthesis.onvoiceschanged = function() { /* voices ready */ };
+    }
+
+    listenBtn.addEventListener('click', function() {
+      if (state === 'idle')    { lastChar = 0; speak(0); setState('playing'); }
+      else if (state === 'playing') { window.speechSynthesis.pause(); setState('paused'); }
+      else if (state === 'paused')  { window.speechSynthesis.resume(); setState('playing'); }
+    });
+
+    playPause.addEventListener('click', function() {
+      if (state === 'playing') { window.speechSynthesis.pause(); setState('paused'); }
+      else if (state === 'paused') { window.speechSynthesis.resume(); setState('playing'); }
+      else { lastChar = 0; speak(0); setState('playing'); }
+    });
+
+    closeBtn.addEventListener('click', function() {
+      window.speechSynthesis.cancel();
+      setState('idle');
+      fill.style.width = '0%';
+      lastChar = 0;
+      fullText = '';
+    });
+
+    speedBtn.addEventListener('click', function() {
+      speedIdx = (speedIdx + 1) % speeds.length;
+      var label = speeds[speedIdx] === 1 ? '1×' : speeds[speedIdx] + '×';
+      speedBtn.textContent = label;
+      speedBtn.setAttribute('aria-label', 'Playback speed: ' + label);
+      // Restart at current position with new speed
+      if (state === 'playing') {
+        speak(lastChar);
+        setState('playing');
+      }
+    });
+
+    window.addEventListener('pagehide',     function() { window.speechSynthesis.cancel(); });
+    window.addEventListener('beforeunload', function() { window.speechSynthesis.cancel(); });
   }
 
   document.addEventListener('DOMContentLoaded', load);
