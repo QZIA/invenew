@@ -677,22 +677,23 @@
       ctx.fillStyle = dotGrd;
       ctx.fill();
 
-      // Label — same orangish-yellow, two lines on mobile
+      // Label — orangish-yellow; top-right corner on mobile, beside dot on desktop
       ctx.save();
-      var labelFlip = W < 480;
-      var fontSize  = Math.max(9, Math.round(W * 0.019));
-      var labelX    = labelFlip ? srcX - 24 : srcX + 24;
-      var labelA    = (c.dk ? 0.88 : 0.72) * (0.7 + 0.3 * bp);
-      ctx.font         = 'bold ' + fontSize + 'px system-ui,sans-serif';
-      ctx.fillStyle    = rc(oy, labelA);
-      ctx.textAlign    = labelFlip ? 'right' : 'left';
-      ctx.textBaseline = 'middle';
-      if (labelFlip) {
-        // Two lines: "INVENEW" / "Intelligence"
-        ctx.fillText('INVENEW',      labelX, srcY - fontSize * 0.65);
-        ctx.fillText('Intelligence', labelX, srcY + fontSize * 0.65);
+      var labelMobile = W < 480;
+      var fontSize    = Math.max(9, Math.round(W * 0.019));
+      var labelA      = (c.dk ? 0.88 : 0.72) * (0.7 + 0.3 * bp);
+      ctx.font      = 'bold ' + fontSize + 'px system-ui,sans-serif';
+      ctx.fillStyle = rc(oy, labelA);
+      if (labelMobile) {
+        // Anchor to top-right of canvas — always clear space
+        ctx.textAlign    = 'right';
+        ctx.textBaseline = 'top';
+        ctx.fillText('INVENEW',      W - 8, 8);
+        ctx.fillText('Intelligence', W - 8, 8 + fontSize * 1.35);
       } else {
-        ctx.fillText('INVENEW Intelligence', labelX, srcY);
+        ctx.textAlign    = 'left';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('INVENEW Intelligence', srcX + 24, srcY);
       }
       ctx.restore();
 
@@ -751,15 +752,21 @@
 
         drawIcon(np.x, np.y, np.n.icon, r, np.color, c.dk ? 0.85 : 0.72);
 
-        // Node label below each circle node
-        var LABELS = ['Cloud Infra','Endpoints','Mobile / Edge','Data Layer','AI Models','On-Prem',''];
+        // Node labels — circle nodes below, hex node centered inside at bottom
+        var LABELS = ['Cloud Infra','Endpoints','Mobile / Edge','Data Layer','AI Models','On-Prem','You'];
         if (LABELS[i]) {
           ctx.save();
-          ctx.font = Math.max(9, Math.round(W * 0.019)) + 'px system-ui,sans-serif';
-          ctx.fillStyle   = rc(np.color, c.dk ? 0.60 : 0.46);
-          ctx.textAlign   = 'center';
-          ctx.textBaseline = 'top';
-          ctx.fillText(LABELS[i], np.x, np.y + r + 10);
+          ctx.font         = Math.max(9, Math.round(W * 0.019)) + 'px system-ui,sans-serif';
+          ctx.fillStyle    = rc(np.color, c.dk ? 0.60 : 0.46);
+          ctx.textAlign    = 'center';
+          if (np.n.hex) {
+            // Draw "You" inside the hexagon, near the bottom
+            ctx.textBaseline = 'middle';
+            ctx.fillText(LABELS[i], np.x, np.y + r * 0.72);
+          } else {
+            ctx.textBaseline = 'top';
+            ctx.fillText(LABELS[i], np.x, np.y + r + 10);
+          }
           ctx.restore();
         }
       });
