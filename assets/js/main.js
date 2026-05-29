@@ -681,11 +681,11 @@
       ctx.save();
       ctx.font = 'bold ' + Math.max(9, Math.round(W * 0.019)) + 'px system-ui,sans-serif';
       ctx.fillStyle   = rc(c.blu, (c.dk ? 0.80 : 0.62) * (0.7 + 0.3 * bp));
-      // On narrow canvases flip label to the left so it doesn't overflow
-      var labelRight = srcX + 24 > W * 0.62;
-      ctx.textAlign   = labelRight ? 'right' : 'left';
+      // Flip label left only when canvas is too narrow to fit it on the right
+      var labelFlip = W < 480;
+      ctx.textAlign    = labelFlip ? 'right' : 'left';
       ctx.textBaseline = 'middle';
-      ctx.fillText('INVENEW Intelligence', labelRight ? srcX - 24 : srcX + 24, srcY);
+      ctx.fillText('INVENEW Intelligence', labelFlip ? srcX - 24 : srcX + 24, srcY);
       ctx.restore();
 
       // Edges
