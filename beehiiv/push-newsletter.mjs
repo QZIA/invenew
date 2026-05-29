@@ -164,12 +164,22 @@ async function beehiivPost(path, body) {
   return json;
 }
 
-/** Fetch all existing post titles from Beehiiv (up to 100) */
+/** Fetch all existing post titles from Beehiiv (confirmed + draft) */
 async function fetchExistingTitles() {
-  const data = await beehiivGet(
-    `/publications/${BEEHIIV_PUBLICATION_ID}/posts?limit=100&status=all`
-  );
-  return new Set((data.data || []).map(p => p.title?.trim().toLowerCase()));
+  const titles = new Set();
+  for (const status of ['confirmed', 'draft']) {
+    try {
+      const data = await beehiivGet(
+        `/publications/${BEEHIIV_PUBLICATION_ID}/posts?limit=100&status=${status}`
+      );
+      (data.data || []).forEach(p => {
+        if (p.title) titles.add(p.title.trim().toLowerCase());
+      });
+    } catch (e) {
+      // ignore if a status type returns an error
+    }
+  }
+  return titles;
 }
 
 // ── Push a single newsletter ──────────────────────────────────────────────────
