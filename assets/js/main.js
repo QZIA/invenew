@@ -666,26 +666,34 @@
       ctx.fillStyle = beamGrd;
       ctx.fill();
 
-      // Source dot — pulses with beam
+      // Source dot — pulses with beam, same orangish-yellow as spotlight
       var dotR = 16 + bp * 7;
       var dotGrd = ctx.createRadialGradient(srcX, srcY, 0, srcX, srcY, dotR * 1.6);
-      dotGrd.addColorStop(0,   rc(c.blu, (c.dk ? 0.90 : 0.72) * bp));
-      dotGrd.addColorStop(0.5, rc(c.blu, (c.dk ? 0.40 : 0.30) * bp));
-      dotGrd.addColorStop(1,   rc(c.blu, 0));
+      dotGrd.addColorStop(0,   rc(oy, (c.dk ? 0.90 : 0.72) * bp));
+      dotGrd.addColorStop(0.5, rc(oy, (c.dk ? 0.40 : 0.30) * bp));
+      dotGrd.addColorStop(1,   rc(oy, 0));
       ctx.beginPath();
       ctx.arc(srcX, srcY, dotR * 1.6, 0, Math.PI*2);
       ctx.fillStyle = dotGrd;
       ctx.fill();
 
-      // "INVENEW Intelligence" label — fades with pulse
+      // Label — same orangish-yellow, two lines on mobile
       ctx.save();
-      ctx.font = 'bold ' + Math.max(9, Math.round(W * 0.019)) + 'px system-ui,sans-serif';
-      ctx.fillStyle   = rc(c.blu, (c.dk ? 0.80 : 0.62) * (0.7 + 0.3 * bp));
-      // Flip label left only when canvas is too narrow to fit it on the right
       var labelFlip = W < 480;
+      var fontSize  = Math.max(9, Math.round(W * 0.019));
+      var labelX    = labelFlip ? srcX - 24 : srcX + 24;
+      var labelA    = (c.dk ? 0.88 : 0.72) * (0.7 + 0.3 * bp);
+      ctx.font         = 'bold ' + fontSize + 'px system-ui,sans-serif';
+      ctx.fillStyle    = rc(oy, labelA);
       ctx.textAlign    = labelFlip ? 'right' : 'left';
       ctx.textBaseline = 'middle';
-      ctx.fillText('INVENEW Intelligence', labelFlip ? srcX - 24 : srcX + 24, srcY);
+      if (labelFlip) {
+        // Two lines: "INVENEW" / "Intelligence"
+        ctx.fillText('INVENEW',      labelX, srcY - fontSize * 0.65);
+        ctx.fillText('Intelligence', labelX, srcY + fontSize * 0.65);
+      } else {
+        ctx.fillText('INVENEW Intelligence', labelX, srcY);
+      }
       ctx.restore();
 
       // Edges
