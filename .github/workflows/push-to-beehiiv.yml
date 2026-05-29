@@ -4,6 +4,7 @@ name: Push newsletters to Beehiiv
 # inside beehiiv/newsletters/ on the main branch.
 
 on:
+  workflow_dispatch: {}   # allow manual re-runs from GitHub Actions UI
   push:
     branches:
       - main
