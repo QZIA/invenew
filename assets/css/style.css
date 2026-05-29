@@ -310,6 +310,7 @@ p  { color: var(--color-text-muted); }
 #ai-stack-canvas {
   width: 100%;
   display: block;
+  opacity: 0.82;
 }
 
 /* Hero video panel */
@@ -319,7 +320,6 @@ p  { color: var(--color-text-muted); }
   border: none;
   box-shadow: none;
   border-radius: 0;
-  overflow: hidden; /* clip video cleanly before vignette takes over */
 }
 .hero-video-wrap video {
   width: 100%;
@@ -332,36 +332,7 @@ p  { color: var(--color-text-muted); }
   filter: saturate(0.65) brightness(0.88);
   opacity: 0.82;
 }
-/* Color-matched vignette overlay — uses exact bg color so edges dissolve perfectly */
-.video-vignette {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(ellipse 100% 100% at 50% 50%,
-    transparent                  24%,
-    rgba(251,250,248, 0.25)      46%,
-    rgba(251,250,248, 0.72)      63%,
-    rgba(251,250,248, 0.94)      76%,
-    #FBFAF8                      88%
-  );
-}
-/* Brand color tint sits below the vignette, visible in the clear center */
-.video-vignette::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(194,153,60,0.11) 0%, rgba(95,118,140,0.08) 100%);
-  mix-blend-mode: overlay;
-}
-[data-theme="dark"] .video-vignette {
-  background: radial-gradient(ellipse 100% 100% at 50% 50%,
-    transparent              24%,
-    rgba(17,17,17, 0.25)     46%,
-    rgba(17,17,17, 0.72)     63%,
-    rgba(17,17,17, 0.94)     76%,
-    #111111                  88%
-  );
-}
+.video-vignette { display: none; }
 [data-theme="dark"] .video-vignette::after {
   background: linear-gradient(135deg, rgba(212,168,64,0.09) 0%, rgba(122,154,181,0.06) 100%);
 }
