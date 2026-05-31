@@ -84,7 +84,7 @@ h4 { font-size: 16px; font-weight: 600; line-height: 1.4; }
 p  { color: var(--color-text-muted); }
 
 /* ── Layout ── */
-.container { max-width: 1280px; margin: 0 auto; padding: 0 48px; }
+.container { max-width: 1440px; margin: 0 auto; padding: 0 64px; }
 .section    { padding: 72px 0; }
 .section.alt { background: var(--color-bg-secondary); }
 
@@ -115,9 +115,9 @@ p  { color: var(--color-text-muted); }
   transition: background var(--transition);
 }
 .nav-inner {
-  max-width: 1280px;
+  max-width: 1440px;
   margin: 0 auto;
-  padding: 0 48px;
+  padding: 0 64px;
   height: 100%;
   display: flex;
   align-items: center;
@@ -301,10 +301,10 @@ p  { color: var(--color-text-muted); }
   position: relative;
   overflow: hidden;
   background: var(--color-hero-bg);
-  padding: 72px 0 60px;
+  padding: 96px 0 60px;
   text-align: left;
 }
-.hero .container { max-width: 1280px; position: relative; z-index: 1; padding: 0 48px; }
+.hero .container { max-width: 1440px; position: relative; z-index: 1; padding: 0 64px; }
 
 /* AI stack canvas sizing */
 #ai-stack-canvas {
@@ -370,7 +370,7 @@ p  { color: var(--color-text-muted); }
   gap: 40px;
   align-items: flex-start;
 }
-.hero-content { max-width: 580px; }
+.hero-content { max-width: 680px; }
 /* Allow video to bleed right so the vignette merges with page edge */
 .hero-card-wrap {
   margin-right: -48px;
