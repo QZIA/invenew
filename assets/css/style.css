@@ -84,7 +84,7 @@ h4 { font-size: 16px; font-weight: 600; line-height: 1.4; }
 p  { color: var(--color-text-muted); }
 
 /* ── Layout ── */
-.container { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+.container { max-width: 1280px; margin: 0 auto; padding: 0 48px; }
 .section    { padding: 72px 0; }
 .section.alt { background: var(--color-bg-secondary); }
 
@@ -115,9 +115,9 @@ p  { color: var(--color-text-muted); }
   transition: background var(--transition);
 }
 .nav-inner {
-  max-width: 1080px;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 0 32px;
+  padding: 0 48px;
   height: 100%;
   display: flex;
   align-items: center;
@@ -301,10 +301,10 @@ p  { color: var(--color-text-muted); }
   position: relative;
   overflow: hidden;
   background: var(--color-hero-bg);
-  padding: 40px 0 60px;
+  padding: 72px 0 60px;
   text-align: left;
 }
-.hero .container { max-width: 1200px; position: relative; z-index: 1; }
+.hero .container { max-width: 1280px; position: relative; z-index: 1; padding: 0 48px; }
 
 /* AI stack canvas sizing */
 #ai-stack-canvas {
