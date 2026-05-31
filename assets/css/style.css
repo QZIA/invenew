@@ -368,7 +368,7 @@ p  { color: var(--color-text-muted); }
   display: grid;
   grid-template-columns: 1fr 540px;
   gap: 40px;
-  align-items: center;
+  align-items: flex-start;
 }
 .hero-content { max-width: 580px; }
 /* Allow video to bleed right so the vignette merges with page edge */
