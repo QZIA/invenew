@@ -201,7 +201,7 @@ p  { color: var(--color-text-muted); }
 .lang-flag { font-size: 16px; line-height: 1; }
 
 .btn-subscribe {
-  background: var(--color-slate);
+  background: #111111;
   color: #ffffff;
   font-size: 13px;
   font-weight: 500;
