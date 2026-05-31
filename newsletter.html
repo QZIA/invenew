@@ -100,6 +100,8 @@
       .nl-reader-body   { padding: 18px 18px 32px; }
       .nl-reader-ext    { display: none; }
       .topics-grid      { grid-template-columns: 1fr; }
+      .beehiiv-clip { min-width: 0; width: 100%; overflow: visible; }
+      .beehiiv-clip iframe { min-width: 0 !important; width: 100% !important; }
     }
   </style>
   <script src="assets/js/main.js" defer></script>
@@ -145,7 +147,7 @@
 </nav>
 
 <!-- ── Page Hero ── -->
-<section class="page-hero">
+<section class="page-hero" style="padding-bottom: 28px;">
   <div class="container">
     <span class="eyebrow">NEWSLETTER</span>
     <h1>Subscribe to INVENEW Intelligence.</h1>
@@ -177,7 +179,7 @@
         </div>
       </div>
       <div style="display:flex; gap:16px; align-items:flex-start; padding:20px; border:1px solid var(--color-border); border-radius:var(--radius-sm); background:var(--color-card-bg);">
-        <svg style="width:36px;height:36px;flex-shrink:0;stroke:var(--color-slate);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;background:var(--color-bg-secondary);border-radius:50%;padding:7px;" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        <svg style="width:36px;height:36px;flex-shrink:0;stroke:var(--color-slate);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;background:var(--color-bg-secondary);border-radius:50%;padding:7px;" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
         <div>
           <div style="font-weight:600;font-size:15px;margin-bottom:4px;">Application Development</div>
           <div style="font-size:13px;color:var(--color-text-faint);line-height:1.55;">Coverage of AI-native application development and practical execution.</div>
@@ -230,15 +232,10 @@
   <div class="container">
     <div class="section-intro">
       <span class="eyebrow">RECENT ISSUES</span>
-      <h2>Browse the latest letters.</h2>
+      <h2>Browse the latest issues.</h2>
     </div>
-    <div id="newsletter-issues">
-      <div class="loading-state">
-        <div class="spinner"></div>
-        <p>Loading recent issues…</p>
-      </div>
-    </div>
-    <div id="newsletter-fallback" style="display:none; margin-top: 16px;">
+    <div id="newsletter-issues" style="display:none;"></div>
+    <div id="newsletter-fallback" style="margin-top: 8px;">
       <p style="font-size:14px; color: var(--color-text-muted);">
         Browse all issues directly on
         <a href="https://invenew.beehiiv.com" target="_blank" rel="noopener" style="color: var(--color-amber);">Beehiiv →</a>
