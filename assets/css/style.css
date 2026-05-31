@@ -366,7 +366,7 @@ p  { color: var(--color-text-muted); }
 /* Split layout */
 .hero-split {
   display: grid;
-  grid-template-columns: 1fr 540px;
+  grid-template-columns: 3fr 2fr;
   gap: 40px;
   align-items: flex-start;
 }
@@ -391,9 +391,9 @@ p  { color: var(--color-text-muted); }
 }
 .hero h1 {
   color: var(--color-hero-text);
-  max-width: 540px;
+  max-width: 100%;
   margin: 0 0 18px;
-  font-size: clamp(34px, 5vw, 58px);
+  font-size: clamp(34px, 4vw, 52px);
   font-weight: 700;
   letter-spacing: -0.02em;
 }
