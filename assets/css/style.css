@@ -301,7 +301,7 @@ p  { color: var(--color-text-muted); }
   position: relative;
   overflow: hidden;
   background: var(--color-hero-bg);
-  padding: 56px 0 60px;
+  padding: 40px 0 60px;
   text-align: left;
 }
 .hero .container { max-width: 1200px; position: relative; z-index: 1; }
