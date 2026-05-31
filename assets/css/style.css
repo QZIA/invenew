@@ -370,7 +370,7 @@ p  { color: var(--color-text-muted); }
   gap: 40px;
   align-items: flex-start;
 }
-.hero-content { max-width: 760px; }
+.hero-content { max-width: 100%; }
 /* Allow video to bleed right so the vignette merges with page edge */
 .hero-card-wrap {
   margin-right: -48px;
