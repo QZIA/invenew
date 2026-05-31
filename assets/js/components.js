@@ -27,7 +27,7 @@
       <div class="footer-brand">
         <img src="assets/img/INVENEW-light-long1.png" alt="INVENEW" class="logo-light">
         <img src="assets/img/INVENEW-dark-long1.png"  alt="INVENEW" class="logo-dark">
-        <p>Founder-led intelligence for AI-native infrastructure, operations, and the future software stack.</p>
+        <p>Founder-led intelligence for AI-native infrastructure, operations, and enterprise execution.</p>
       </div>
       <div class="footer-col">
         <h5>PLATFORM</h5>
