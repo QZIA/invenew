@@ -258,8 +258,8 @@ p  { color: var(--color-text-muted); }
 /* ── Buttons ── */
 .btn-primary {
   display: inline-block;
-  background: var(--color-text);
-  color: var(--color-bg);
+  background: var(--color-slate);
+  color: #ffffff;
   font-size: 14px;
   font-weight: 500;
   padding: 12px 26px;
