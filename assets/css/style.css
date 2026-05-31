@@ -853,7 +853,7 @@ p  { color: var(--color-text-muted); }
   .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; }
   .blog-grid { grid-template-columns: 1fr; }
   .blog-grid--4 { grid-template-columns: 1fr; }
-  .hero-card-wrap { display: none; }
+  .hero-trust { flex-wrap: wrap !important; white-space: normal !important; gap: 12px !important; }
   .featured-post-img { height: 220px; }
   .featured-post-body { padding: 20px 20px 24px; }
   .nav-links { display: none; }
