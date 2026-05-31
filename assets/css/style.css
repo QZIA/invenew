@@ -258,8 +258,8 @@ p  { color: var(--color-text-muted); }
 /* ── Buttons ── */
 .btn-primary {
   display: inline-block;
-  background: var(--color-slate);
-  color: #ffffff;
+  background: var(--color-text);
+  color: var(--color-bg);
   font-size: 14px;
   font-weight: 500;
   padding: 12px 26px;
@@ -268,7 +268,7 @@ p  { color: var(--color-text-muted); }
   cursor: pointer;
   transition: opacity var(--transition);
 }
-.btn-primary:hover { opacity: 0.88; }
+.btn-primary:hover { opacity: 0.82; }
 
 .btn-outline {
   display: inline-block;
